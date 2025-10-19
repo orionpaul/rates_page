@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signOut, getAuth } from 'firebase/auth';
+import { initializeApp, getApps } from 'firebase/app';
 import { auth } from '@/lib/firebase';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -31,6 +32,26 @@ export default function UsersManagementPage() {
       return;
     }
     fetchUsers();
+
+    // Subscribe to real-time updates for users table
+    const usersSubscription = supabase
+      .channel('public:users')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'users'
+      }, (payload) => {
+        console.log('User change detected:', payload);
+        fetchUsers(); // Instant refresh on any change
+      })
+      .subscribe((status) => {
+        console.log('Users subscription status:', status);
+      });
+
+    // Cleanup subscription on unmount
+    return () => {
+      usersSubscription.unsubscribe();
+    };
   }, [userData]);
 
   const fetchUsers = async () => {
@@ -86,12 +107,39 @@ export default function UsersManagementPage() {
         return;
       }
 
-      // Create Firebase Auth user
+      // Create a secondary Firebase app instance to prevent auto-login
+      // This ensures the admin stays logged in
+      const firebaseConfig = {
+        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+      };
+
+      // Check if secondary app already exists, if not create it
+      let secondaryApp;
+      const existingApps = getApps();
+      const secondaryAppExists = existingApps.find(app => app.name === 'Secondary');
+
+      if (secondaryAppExists) {
+        secondaryApp = secondaryAppExists;
+      } else {
+        secondaryApp = initializeApp(firebaseConfig, 'Secondary');
+      }
+
+      const secondaryAuth = getAuth(secondaryApp);
+
+      // Create Firebase Auth user using secondary app
       const userCredential = await createUserWithEmailAndPassword(
-        auth,
+        secondaryAuth,
         formData.email,
         formData.password
       );
+
+      // Immediately sign out from secondary app to prevent any session conflicts
+      await signOut(secondaryAuth);
 
       // Add user document to Supabase
       const { error } = await supabase

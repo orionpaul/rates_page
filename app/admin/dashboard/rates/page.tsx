@@ -22,6 +22,26 @@ export default function RatesManagementPage() {
 
   useEffect(() => {
     fetchCurrencies();
+
+    // Subscribe to real-time updates for currencies table
+    const currenciesSubscription = supabase
+      .channel('public:currencies_admin')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'currencies'
+      }, (payload) => {
+        console.log('Currency change detected:', payload);
+        fetchCurrencies(); // Instant refresh on any change
+      })
+      .subscribe((status) => {
+        console.log('Currencies subscription status:', status);
+      });
+
+    // Cleanup subscription on unmount
+    return () => {
+      currenciesSubscription.unsubscribe();
+    };
   }, []);
 
   const fetchCurrencies = async () => {

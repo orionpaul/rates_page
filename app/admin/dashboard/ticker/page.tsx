@@ -33,6 +33,26 @@ export default function TickerManagementPage() {
       return;
     }
     fetchMessages();
+
+    // Subscribe to real-time updates for ticker_messages table
+    const tickerSubscription = supabase
+      .channel('public:ticker_messages_page')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'ticker_messages'
+      }, (payload) => {
+        console.log('Ticker message change detected:', payload);
+        fetchMessages(); // Instant refresh on any change
+      })
+      .subscribe((status) => {
+        console.log('Ticker subscription status:', status);
+      });
+
+    // Cleanup subscription on unmount
+    return () => {
+      tickerSubscription.unsubscribe();
+    };
   }, [userData]);
 
   const fetchMessages = async () => {

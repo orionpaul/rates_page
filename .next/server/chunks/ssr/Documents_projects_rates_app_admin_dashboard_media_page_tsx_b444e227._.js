@@ -35,6 +35,33 @@ function MediaManagementPage() {
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         fetchMedia();
         fetchTickerMessages();
+        // Subscribe to real-time updates for media table
+        const mediaSubscription = __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].channel('public:media').on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'media'
+        }, (payload)=>{
+            console.log('Media change detected:', payload);
+            fetchMedia(); // Instant refresh on any change
+        }).subscribe((status)=>{
+            console.log('Media subscription status:', status);
+        });
+        // Subscribe to real-time updates for ticker_messages table
+        const tickerSubscription = __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].channel('public:ticker_messages_admin').on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'ticker_messages'
+        }, (payload)=>{
+            console.log('Ticker message change detected:', payload);
+            fetchTickerMessages(); // Instant refresh on any change
+        }).subscribe((status)=>{
+            console.log('Ticker subscription status:', status);
+        });
+        // Cleanup subscriptions on unmount
+        return ()=>{
+            mediaSubscription.unsubscribe();
+            tickerSubscription.unsubscribe();
+        };
     }, []);
     const fetchMedia = async ()=>{
         setLoading(true);
@@ -220,7 +247,7 @@ function MediaManagementPage() {
             children: "Loading..."
         }, void 0, false, {
             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-            lineNumber: 253,
+            lineNumber: 289,
             columnNumber: 12
         }, this);
     }
@@ -231,7 +258,7 @@ function MediaManagementPage() {
                 children: "Manage Media"
             }, void 0, false, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                lineNumber: 258,
+                lineNumber: 294,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -245,7 +272,7 @@ function MediaManagementPage() {
                                 children: "Add YouTube Video"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 264,
+                                lineNumber: 300,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -258,7 +285,7 @@ function MediaManagementPage() {
                                                 children: "YouTube URL"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 267,
+                                                lineNumber: 303,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -269,13 +296,13 @@ function MediaManagementPage() {
                                                 className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 270,
+                                                lineNumber: 306,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 266,
+                                        lineNumber: 302,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -284,19 +311,19 @@ function MediaManagementPage() {
                                         children: "Add YouTube Video"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 278,
+                                        lineNumber: 314,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 265,
+                                lineNumber: 301,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 263,
+                        lineNumber: 299,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -307,7 +334,7 @@ function MediaManagementPage() {
                                 children: "Upload Image"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 289,
+                                lineNumber: 325,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -320,7 +347,7 @@ function MediaManagementPage() {
                                                 children: "Select Image"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 292,
+                                                lineNumber: 328,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -330,13 +357,13 @@ function MediaManagementPage() {
                                                 className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 295,
+                                                lineNumber: 331,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 291,
+                                        lineNumber: 327,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -346,25 +373,25 @@ function MediaManagementPage() {
                                         children: uploading ? 'Uploading...' : 'Upload Image'
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 302,
+                                        lineNumber: 338,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 290,
+                                lineNumber: 326,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 288,
+                        lineNumber: 324,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                lineNumber: 261,
+                lineNumber: 297,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -378,7 +405,7 @@ function MediaManagementPage() {
                                 children: "News Ticker Messages"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 316,
+                                lineNumber: 352,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -387,13 +414,13 @@ function MediaManagementPage() {
                                 children: showTickerForm ? 'Cancel' : '+ Add Message'
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 317,
+                                lineNumber: 353,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 315,
+                        lineNumber: 351,
                         columnNumber: 9
                     }, this),
                     showTickerForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -408,7 +435,7 @@ function MediaManagementPage() {
                                             children: "Message"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                            lineNumber: 329,
+                                            lineNumber: 365,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -422,13 +449,13 @@ function MediaManagementPage() {
                                             className: "w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none text-sm"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                            lineNumber: 330,
+                                            lineNumber: 366,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                    lineNumber: 328,
+                                    lineNumber: 364,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -441,7 +468,7 @@ function MediaManagementPage() {
                                                     children: "Icon"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 340,
+                                                    lineNumber: 376,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -457,7 +484,7 @@ function MediaManagementPage() {
                                                             children: "⚠️ Info"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                            lineNumber: 346,
+                                                            lineNumber: 382,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -465,7 +492,7 @@ function MediaManagementPage() {
                                                             children: "🕐 Clock"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                            lineNumber: 347,
+                                                            lineNumber: 383,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -473,19 +500,19 @@ function MediaManagementPage() {
                                                             children: "✉️ Mail"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                            lineNumber: 348,
+                                                            lineNumber: 384,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 341,
+                                                    lineNumber: 377,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                            lineNumber: 339,
+                                            lineNumber: 375,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -495,7 +522,7 @@ function MediaManagementPage() {
                                                     children: "Order"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 352,
+                                                    lineNumber: 388,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -508,13 +535,13 @@ function MediaManagementPage() {
                                                     className: "w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 353,
+                                                    lineNumber: 389,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                            lineNumber: 351,
+                                            lineNumber: 387,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -524,7 +551,7 @@ function MediaManagementPage() {
                                                     children: "Status"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 361,
+                                                    lineNumber: 397,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -540,7 +567,7 @@ function MediaManagementPage() {
                                                             children: "Active"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                            lineNumber: 367,
+                                                            lineNumber: 403,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -548,25 +575,25 @@ function MediaManagementPage() {
                                                             children: "Inactive"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                            lineNumber: 368,
+                                                            lineNumber: 404,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 362,
+                                                    lineNumber: 398,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                            lineNumber: 360,
+                                            lineNumber: 396,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                    lineNumber: 338,
+                                    lineNumber: 374,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -575,18 +602,18 @@ function MediaManagementPage() {
                                     children: "Add Ticker Message"
                                 }, void 0, false, {
                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                    lineNumber: 372,
+                                    lineNumber: 408,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                            lineNumber: 327,
+                            lineNumber: 363,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 326,
+                        lineNumber: 362,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -596,7 +623,7 @@ function MediaManagementPage() {
                             children: "No ticker messages yet. Add one to get started."
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                            lineNumber: 384,
+                            lineNumber: 420,
                             columnNumber: 13
                         }, this) : tickerMessages.map((msg)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center justify-between border border-gray-200 p-3 hover:bg-gray-50",
@@ -609,7 +636,7 @@ function MediaManagementPage() {
                                                 children: msg.message
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 389,
+                                                lineNumber: 425,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -622,13 +649,13 @@ function MediaManagementPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 390,
+                                                lineNumber: 426,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 388,
+                                        lineNumber: 424,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -646,7 +673,7 @@ function MediaManagementPage() {
                                                         children: "Active"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                        lineNumber: 400,
+                                                        lineNumber: 436,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -654,13 +681,13 @@ function MediaManagementPage() {
                                                         children: "Inactive"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                        lineNumber: 401,
+                                                        lineNumber: 437,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 395,
+                                                lineNumber: 431,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -669,30 +696,30 @@ function MediaManagementPage() {
                                                 children: "Delete"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 403,
+                                                lineNumber: 439,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 394,
+                                        lineNumber: 430,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, msg.id, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 387,
+                                lineNumber: 423,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 382,
+                        lineNumber: 418,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                lineNumber: 314,
+                lineNumber: 350,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -705,12 +732,12 @@ function MediaManagementPage() {
                             children: "All Media"
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                            lineNumber: 419,
+                            lineNumber: 455,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 418,
+                        lineNumber: 454,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -720,7 +747,7 @@ function MediaManagementPage() {
                             children: "No media items yet. Add a YouTube video or upload an image."
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                            lineNumber: 423,
+                            lineNumber: 459,
                             columnNumber: 13
                         }, this) : mediaItems.map((media)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "px-6 py-4 flex items-center justify-between",
@@ -737,12 +764,12 @@ function MediaManagementPage() {
                                                     className: "object-cover"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                    lineNumber: 432,
+                                                    lineNumber: 468,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 431,
+                                                lineNumber: 467,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -756,13 +783,13 @@ function MediaManagementPage() {
                                                                 children: "Active"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                                lineNumber: 444,
+                                                                lineNumber: 480,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                        lineNumber: 441,
+                                                        lineNumber: 477,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -770,19 +797,19 @@ function MediaManagementPage() {
                                                         children: media.url
                                                     }, void 0, false, {
                                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                        lineNumber: 449,
+                                                        lineNumber: 485,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 440,
+                                                lineNumber: 476,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 429,
+                                        lineNumber: 465,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -794,7 +821,7 @@ function MediaManagementPage() {
                                                 children: "Set Active"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 456,
+                                                lineNumber: 492,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -803,36 +830,36 @@ function MediaManagementPage() {
                                                 children: "Delete"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                                lineNumber: 463,
+                                                lineNumber: 499,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                        lineNumber: 454,
+                                        lineNumber: 490,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, media.id, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                                lineNumber: 428,
+                                lineNumber: 464,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                        lineNumber: 421,
+                        lineNumber: 457,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-                lineNumber: 417,
+                lineNumber: 453,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
-        lineNumber: 257,
+        lineNumber: 293,
         columnNumber: 5
     }, this);
 }

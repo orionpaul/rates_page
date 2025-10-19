@@ -28,6 +28,42 @@ export default function MediaManagementPage() {
   useEffect(() => {
     fetchMedia();
     fetchTickerMessages();
+
+    // Subscribe to real-time updates for media table
+    const mediaSubscription = supabase
+      .channel('public:media')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'media'
+      }, (payload) => {
+        console.log('Media change detected:', payload);
+        fetchMedia(); // Instant refresh on any change
+      })
+      .subscribe((status) => {
+        console.log('Media subscription status:', status);
+      });
+
+    // Subscribe to real-time updates for ticker_messages table
+    const tickerSubscription = supabase
+      .channel('public:ticker_messages_admin')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'ticker_messages'
+      }, (payload) => {
+        console.log('Ticker message change detected:', payload);
+        fetchTickerMessages(); // Instant refresh on any change
+      })
+      .subscribe((status) => {
+        console.log('Ticker subscription status:', status);
+      });
+
+    // Cleanup subscriptions on unmount
+    return () => {
+      mediaSubscription.unsubscribe();
+      tickerSubscription.unsubscribe();
+    };
   }, []);
 
   const fetchMedia = async () => {
