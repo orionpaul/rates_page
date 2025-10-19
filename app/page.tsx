@@ -111,49 +111,80 @@ export default function Home() {
   return (
     <main className="h-screen w-screen overflow-hidden bg-white flex">
       {/* Left Side - Media Display */}
-      <div className="w-1/2 h-full bg-black relative">
-        {media?.type === 'youtube' ? (
-          <div className="w-full h-full">
-            <YouTube
-              videoId={getYouTubeVideoId(media.url)}
-              opts={{
-                height: '100%',
-                width: '100%',
-                playerVars: {
-                  autoplay: 1,
-                  mute: 0, // Sound enabled
-                  loop: 1,
-                  playlist: getYouTubeVideoId(media.url), // Required for looping
-                  controls: 0,
-                  modestbranding: 1,
-                  rel: 0,
-                  enablejsapi: 1,
-                },
-              }}
-              onEnd={(event) => {
-                event.target.playVideo(); // Restart video when it ends
-              }}
-              className="w-full h-full"
-            />
+      <div className="w-1/2 h-full relative overflow-hidden">
+        {/* Artistic Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-black">
+          {/* Animated geometric patterns */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-secondary blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-light blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
           </div>
-        ) : media?.type === 'image' ? (
-          <Image
-            src={media.url}
-            alt="Advertisement"
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex items-center justify-center h-full">
+
+          {/* Animated grid pattern */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: 'linear-gradient(rgba(0, 168, 232, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 168, 232, 0.3) 1px, transparent 1px)',
+            backgroundSize: '50px 50px',
+            animation: 'grid-move 20s linear infinite'
+          }}></div>
+
+          {/* Diagonal light streaks */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-30 animate-streak-1"></div>
+            <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-30 animate-streak-2"></div>
+            <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-primary-light to-transparent opacity-30 animate-streak-3"></div>
+          </div>
+        </div>
+
+        {/* Media Content */}
+        <div className="relative z-10 w-full h-full">
+          {media?.type === 'youtube' ? (
+            <div className="w-full h-full">
+              <YouTube
+                videoId={getYouTubeVideoId(media.url)}
+                opts={{
+                  height: '100%',
+                  width: '100%',
+                  playerVars: {
+                    autoplay: 1,
+                    mute: 0, // Sound enabled
+                    loop: 1,
+                    playlist: getYouTubeVideoId(media.url), // Required for looping
+                    controls: 0,
+                    modestbranding: 1,
+                    rel: 0,
+                    enablejsapi: 1,
+                  },
+                }}
+                onEnd={(event) => {
+                  event.target.playVideo(); // Restart video when it ends
+                }}
+                className="w-full h-full"
+              />
+            </div>
+          ) : media?.type === 'image' ? (
             <Image
-              src="/logo.png"
-              alt="CBZ Bank Logo"
-              width={300}
-              height={300}
-              className="object-contain"
+              src={media.url}
+              alt="Advertisement"
+              fill
+              className="object-cover"
             />
-          </div>
-        )}
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <div className="relative">
+                {/* Glowing effect behind logo */}
+                <div className="absolute inset-0 bg-secondary/30 blur-3xl animate-pulse"></div>
+                <Image
+                  src="/logo.png"
+                  alt="Talk&Pay Logo"
+                  width={400}
+                  height={400}
+                  className="object-contain relative z-10"
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Right Side - Exchange Rates */}

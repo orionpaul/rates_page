@@ -9,8 +9,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Talk and Pay - Exchange Rates",
+  title: "Talk&Pay - Exchange Rates",
   description: "Real-time currency exchange rates board",
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({

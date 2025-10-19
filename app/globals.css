@@ -98,3 +98,54 @@ body {
 .animate-shimmer {
   animation: shimmer 3s infinite;
 }
+
+/* Artistic Video Background Animations */
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+@keyframes streak-1 {
+  0% {
+    transform: translateX(-100%) translateY(0) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(200%) translateY(100vh) rotate(-45deg);
+  }
+}
+
+@keyframes streak-2 {
+  0% {
+    transform: translateX(-100%) translateY(30vh) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(200%) translateY(130vh) rotate(-45deg);
+  }
+}
+
+@keyframes streak-3 {
+  0% {
+    transform: translateX(-100%) translateY(60vh) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(200%) translateY(160vh) rotate(-45deg);
+  }
+}
+
+.animate-streak-1 {
+  animation: streak-1 8s linear infinite;
+}
+
+.animate-streak-2 {
+  animation: streak-2 10s linear infinite;
+  animation-delay: 2s;
+}
+
+.animate-streak-3 {
+  animation: streak-3 12s linear infinite;
+  animation-delay: 4s;
+}
