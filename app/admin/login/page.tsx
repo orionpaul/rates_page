@@ -21,9 +21,27 @@ export default function LoginPage() {
     try {
       await login(email, password);
       router.push('/admin/dashboard');
-    } catch (err) {
-      setError('Invalid email or password. Please try again.');
+    } catch (err: unknown) {
       console.error(err);
+      const firebaseError = err as { code?: string; message?: string };
+
+      if (firebaseError.code === 'auth/invalid-credential') {
+        setError(
+          'Account not found or password is incorrect.\n\n' +
+          'First time logging in?\n' +
+          '1. Create your account in Firebase Console\n' +
+          '2. Get your UID from Firebase Console\n' +
+          '3. Run: node scripts/bootstrapFirstAdmin.js <YOUR_UID>'
+        );
+      } else if (firebaseError.code === 'auth/invalid-email') {
+        setError('Invalid email format. Please check your email address.');
+      } else if (firebaseError.code === 'auth/user-disabled') {
+        setError('This account has been disabled. Contact your administrator.');
+      } else if (firebaseError.code === 'auth/too-many-requests') {
+        setError('Too many failed login attempts. Please try again later.');
+      } else {
+        setError('Login failed. Please check your credentials and try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -46,7 +64,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="bg-blue-50 border border-blue-200 text-primary-dark px-4 py-3">
+            <div className="bg-red-50 border border-red-300 text-red-800 px-4 py-3 whitespace-pre-line text-sm">
               {error}
             </div>
           )}

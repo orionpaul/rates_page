@@ -15,25 +15,25 @@ export default function DashboardPage() {
     const fetchStats = async () => {
       try {
         // Get total currencies
-        const { data: currencies } = await supabase
+        const { count: currenciesCount } = await supabase
           .from('currencies')
-          .select('id', { count: 'exact', head: true });
+          .select('*', { count: 'exact', head: true });
 
         // Get active media count
-        const { data: media } = await supabase
+        const { count: mediaCount } = await supabase
           .from('media')
-          .select('id', { count: 'exact', head: true })
+          .select('*', { count: 'exact', head: true })
           .eq('is_active', true);
 
         // Get total users
-        const { data: users } = await supabase
+        const { count: usersCount } = await supabase
           .from('users')
-          .select('uid', { count: 'exact', head: true });
+          .select('*', { count: 'exact', head: true });
 
         setStats({
-          totalCurrencies: currencies?.length || 0,
-          activeMedia: media?.length || 0,
-          totalUsers: users?.length || 0,
+          totalCurrencies: currenciesCount || 0,
+          activeMedia: mediaCount || 0,
+          totalUsers: usersCount || 0,
         });
       } catch (error) {
         console.error('Error fetching stats:', error);

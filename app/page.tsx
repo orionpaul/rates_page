@@ -172,9 +172,21 @@ export default function Home() {
           ) : (
             <div className="flex items-center justify-center h-full">
               <div className="relative">
-                {/* Bright spotlight behind logo for visibility */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/30 blur-3xl"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-secondary/40 via-white/30 to-accent/40 blur-2xl animate-pulse-slow"></div>
+                {/* Electrified white glow layers - intense and bright */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-white/40 blur-3xl animate-electric-pulse"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/50 blur-3xl animate-electric-pulse-delayed"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/60 blur-2xl animate-electric-pulse-fast"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-100/40 blur-xl animate-pulse-slow"></div>
+
+                {/* Matrix-style green glow layers (subtle) */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/15 blur-3xl animate-matrix-pulse"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-400/20 blur-2xl animate-matrix-pulse-delayed"></div>
+
+                {/* Matrix scanlines */}
+                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
+                  backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(34, 197, 94, 0.3) 2px, rgba(34, 197, 94, 0.3) 4px)',
+                  animation: 'scanlines 8s linear infinite'
+                }}></div>
 
                 {/* Animated rotating rings around logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -194,44 +206,64 @@ export default function Home() {
                 {/* Financial symbols orbiting logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]">
                   {/* Dollar signs */}
-                  <div className="absolute top-10 left-1/2 -translate-x-1/2 text-6xl font-bold text-green-400/60 animate-orbit-currency-1 drop-shadow-lg">$</div>
-                  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-5xl font-bold text-green-400/50 animate-orbit-currency-2 drop-shadow-lg">$</div>
+                  <div className="absolute top-10 left-1/2 -translate-x-1/2 text-8xl font-bold text-green-400/60 animate-orbit-currency-1 drop-shadow-lg">$</div>
+                  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-7xl font-bold text-green-400/50 animate-orbit-currency-2 drop-shadow-lg">$</div>
 
                   {/* Euro signs */}
-                  <div className="absolute top-1/2 right-10 -translate-y-1/2 text-5xl font-bold text-blue-400/60 animate-orbit-currency-3 drop-shadow-lg">€</div>
-                  <div className="absolute top-1/2 left-10 -translate-y-1/2 text-5xl font-bold text-blue-400/50 animate-orbit-currency-4 drop-shadow-lg">€</div>
+                  <div className="absolute top-1/2 right-10 -translate-y-1/2 text-7xl font-bold text-blue-400/60 animate-orbit-currency-3 drop-shadow-lg">€</div>
+                  <div className="absolute top-1/2 left-10 -translate-y-1/2 text-7xl font-bold text-blue-400/50 animate-orbit-currency-4 drop-shadow-lg">€</div>
 
                   {/* Pound signs */}
-                  <div className="absolute top-20 right-20 text-4xl font-bold text-cyan-400/60 animate-orbit-currency-5 drop-shadow-lg">£</div>
-                  <div className="absolute bottom-20 left-20 text-4xl font-bold text-cyan-400/50 animate-orbit-currency-6 drop-shadow-lg">£</div>
+                  <div className="absolute top-20 right-20 text-6xl font-bold text-cyan-400/60 animate-orbit-currency-5 drop-shadow-lg">£</div>
+                  <div className="absolute bottom-20 left-20 text-6xl font-bold text-cyan-400/50 animate-orbit-currency-6 drop-shadow-lg">£</div>
 
                   {/* Yen signs */}
-                  <div className="absolute top-20 left-20 text-4xl font-bold text-yellow-400/60 animate-orbit-currency-7 drop-shadow-lg">¥</div>
-                  <div className="absolute bottom-20 right-20 text-4xl font-bold text-yellow-400/50 animate-orbit-currency-8 drop-shadow-lg">¥</div>
+                  <div className="absolute top-20 left-20 text-6xl font-bold text-yellow-400/60 animate-orbit-currency-7 drop-shadow-lg">¥</div>
+                  <div className="absolute bottom-20 right-20 text-6xl font-bold text-yellow-400/50 animate-orbit-currency-8 drop-shadow-lg">¥</div>
 
                   {/* Bitcoin symbol */}
-                  <div className="absolute top-1/3 right-16 text-5xl font-bold text-orange-400/60 animate-orbit-currency-9 drop-shadow-lg">₿</div>
+                  <div className="absolute top-1/3 right-16 text-7xl font-bold text-orange-400/60 animate-orbit-currency-9 drop-shadow-lg">₿</div>
 
                   {/* Generic coin symbols */}
-                  <div className="absolute bottom-1/3 left-16 text-3xl text-amber-400/70 animate-orbit-currency-10 drop-shadow-lg">🪙</div>
-                  <div className="absolute top-1/4 left-1/4 text-3xl text-yellow-400/60 animate-orbit-currency-11 drop-shadow-lg">💰</div>
-                  <div className="absolute bottom-1/4 right-1/4 text-3xl text-green-400/60 animate-orbit-currency-12 drop-shadow-lg">💵</div>
+                  <div className="absolute bottom-1/3 left-16 text-6xl text-amber-400/70 animate-orbit-currency-10 drop-shadow-lg">🪙</div>
+                  <div className="absolute top-1/4 left-1/4 text-6xl text-yellow-400/60 animate-orbit-currency-11 drop-shadow-lg">💰</div>
+                  <div className="absolute bottom-1/4 right-1/4 text-6xl text-green-400/60 animate-orbit-currency-12 drop-shadow-lg">💵</div>
                 </div>
 
-                {/* Central glowing pulse - brighter */}
+                {/* Central glowing pulse - brighter with Matrix green */}
+                <div className="absolute inset-0 bg-green-400/30 blur-3xl animate-matrix-pulse"></div>
                 <div className="absolute inset-0 bg-white/20 blur-3xl animate-pulse-slow"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-white/20 to-accent/20 blur-2xl animate-pulse-slower"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-400/30 to-green-500/20 blur-2xl animate-pulse-slower"></div>
 
-                {/* Logo with floating animation - enhanced brightness */}
+                {/* Logo with floating animation - intense electrified white glow */}
                 <div className="relative z-10 animate-float">
-                  <div className="absolute inset-0 bg-white/10 blur-xl"></div>
-                  <Image
-                    src="/logo.png"
-                    alt="Talk&Pay Logo"
-                    width={400}
-                    height={400}
-                    className="object-contain drop-shadow-2xl relative z-10 brightness-110"
-                  />
+                  {/* Electrified white glow around logo - intense */}
+                  <div className="absolute inset-0 bg-white/70 blur-3xl animate-electric-pulse"></div>
+                  <div className="absolute inset-0 bg-blue-200/50 blur-2xl animate-electric-pulse-delayed"></div>
+                  <div className="absolute inset-0 bg-white/80 blur-xl animate-electric-pulse-fast"></div>
+
+                  {/* Matrix-style green glow (subtle accent) */}
+                  <div className="absolute inset-0 bg-green-500/20 blur-2xl animate-matrix-pulse"></div>
+                  <div className="absolute inset-0 bg-emerald-300/15 blur-xl animate-matrix-pulse-delayed"></div>
+
+                  {/* Logo with intense white electric shadow */}
+                  <div className="relative">
+                    <Image
+                      src="/logo.png"
+                      alt="Talk&Pay Logo"
+                      width={400}
+                      height={400}
+                      className="object-contain relative z-10 brightness-125"
+                      style={{
+                        filter:
+                          'drop-shadow(0 0 10px rgba(255, 255, 255, 0.9)) ' +
+                          'drop-shadow(0 0 20px rgba(255, 255, 255, 0.7)) ' +
+                          'drop-shadow(0 0 30px rgba(0, 200, 255, 0.6)) ' +
+                          'drop-shadow(0 0 40px rgba(34, 197, 94, 0.4)) ' +
+                          'drop-shadow(0 0 60px rgba(255, 255, 255, 0.3))'
+                      }}
+                    />
+                  </div>
                 </div>
 
                 {/* Radiating waves - more visible */}

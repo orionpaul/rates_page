@@ -6,16 +6,28 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Media } from '@/types';
 import Image from 'next/image';
 
+interface TickerMessage {
+  id: string;
+  message: string;
+  icon: string;
+  is_active: boolean;
+  display_order: number;
+}
+
 export default function MediaManagementPage() {
   const [mediaItems, setMediaItems] = useState<Media[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [tickerMessages, setTickerMessages] = useState<TickerMessage[]>([]);
+  const [showTickerForm, setShowTickerForm] = useState(false);
+  const [tickerForm, setTickerForm] = useState({ message: '', icon: 'info', is_active: true, display_order: 0 });
   const { user } = useAuth();
 
   useEffect(() => {
     fetchMedia();
+    fetchTickerMessages();
   }, []);
 
   const fetchMedia = async () => {
@@ -161,6 +173,82 @@ export default function MediaManagementPage() {
     }
   };
 
+  const fetchTickerMessages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('ticker_messages')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (data && !error) {
+        setTickerMessages(data);
+      }
+    } catch (error) {
+      console.error('Error fetching ticker messages:', error);
+    }
+  };
+
+  const handleAddTickerMessage = async () => {
+    if (!tickerForm.message.trim()) {
+      alert('Please enter a message');
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('ticker_messages')
+        .insert([{
+          message: tickerForm.message,
+          icon: tickerForm.icon,
+          is_active: tickerForm.is_active,
+          display_order: tickerForm.display_order,
+          updated_by: user?.email || 'unknown',
+        }]);
+
+      if (!error) {
+        setTickerForm({ message: '', icon: 'info', is_active: true, display_order: 0 });
+        setShowTickerForm(false);
+        fetchTickerMessages();
+        alert('✅ Ticker message added!');
+      }
+    } catch (error) {
+      console.error('Error adding ticker message:', error);
+      alert('❌ Failed to add ticker message');
+    }
+  };
+
+  const handleUpdateTickerMessage = async (id: string, updates: Partial<TickerMessage>) => {
+    try {
+      const { error } = await supabase
+        .from('ticker_messages')
+        .update({ ...updates, updated_by: user?.email })
+        .eq('id', id);
+
+      if (!error) {
+        fetchTickerMessages();
+      }
+    } catch (error) {
+      console.error('Error updating ticker message:', error);
+    }
+  };
+
+  const handleDeleteTickerMessage = async (id: string) => {
+    if (confirm('Delete this ticker message?')) {
+      try {
+        const { error } = await supabase
+          .from('ticker_messages')
+          .delete()
+          .eq('id', id);
+
+        if (!error) {
+          fetchTickerMessages();
+        }
+      } catch (error) {
+        console.error('Error deleting ticker message:', error);
+      }
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -219,6 +307,109 @@ export default function MediaManagementPage() {
               {uploading ? 'Uploading...' : 'Upload Image'}
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* News Ticker Management */}
+      <div className="bg-white shadow p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-gray-800">News Ticker Messages</h3>
+          <button
+            onClick={() => setShowTickerForm(!showTickerForm)}
+            className="bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition text-sm"
+          >
+            {showTickerForm ? 'Cancel' : '+ Add Message'}
+          </button>
+        </div>
+
+        {showTickerForm && (
+          <div className="bg-blue-50 border-2 border-secondary p-4 mb-4">
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <input
+                  type="text"
+                  value={tickerForm.message}
+                  onChange={(e) => setTickerForm({ ...tickerForm, message: e.target.value })}
+                  placeholder="Enter ticker message..."
+                  className="w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none text-sm"
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                  <select
+                    value={tickerForm.icon}
+                    onChange={(e) => setTickerForm({ ...tickerForm, icon: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none text-sm"
+                  >
+                    <option value="info">⚠️ Info</option>
+                    <option value="clock">🕐 Clock</option>
+                    <option value="mail">✉️ Mail</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Order</label>
+                  <input
+                    type="number"
+                    value={tickerForm.display_order}
+                    onChange={(e) => setTickerForm({ ...tickerForm, display_order: parseInt(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <select
+                    value={tickerForm.is_active.toString()}
+                    onChange={(e) => setTickerForm({ ...tickerForm, is_active: e.target.value === 'true' })}
+                    className="w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none text-sm"
+                  >
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                </div>
+              </div>
+              <button
+                onClick={handleAddTickerMessage}
+                className="bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition text-sm"
+              >
+                Add Ticker Message
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-2">
+          {tickerMessages.length === 0 ? (
+            <p className="text-gray-500 text-sm">No ticker messages yet. Add one to get started.</p>
+          ) : (
+            tickerMessages.map((msg) => (
+              <div key={msg.id} className="flex items-center justify-between border border-gray-200 p-3 hover:bg-gray-50">
+                <div className="flex-1">
+                  <div className="text-sm text-gray-900">{msg.message}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Order: {msg.display_order} • {msg.is_active ? '✓ Active' : '✗ Inactive'}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <select
+                    value={msg.is_active.toString()}
+                    onChange={(e) => handleUpdateTickerMessage(msg.id, { is_active: e.target.value === 'true' })}
+                    className="px-2 py-1 text-xs border border-gray-300 focus:ring-2 focus:ring-secondary outline-none"
+                  >
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                  <button
+                    onClick={() => handleDeleteTickerMessage(msg.id)}
+                    className="px-3 py-1 text-xs bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

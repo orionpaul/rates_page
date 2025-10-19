@@ -109,11 +109,12 @@ export default function UsersManagementPage() {
         fetchUsers();
         alert(`✅ User created successfully!\n\nEmail: ${formData.email}\nRole: ${formData.role}`);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error adding user:', error);
 
       // Handle specific Firebase errors
-      if (error.code === 'auth/email-already-in-use') {
+      const firebaseError = error as { code?: string; message?: string };
+      if (firebaseError.code === 'auth/email-already-in-use') {
         alert(
           `❌ Email Already Exists in Firebase!\n\n` +
           `The email "${formData.email}" already has a Firebase Auth account.\n\n` +
@@ -121,12 +122,12 @@ export default function UsersManagementPage() {
           `1. Use "Update Existing User" button to set their role\n` +
           `2. Or use a different email address`
         );
-      } else if (error.code === 'auth/invalid-email') {
+      } else if (firebaseError.code === 'auth/invalid-email') {
         alert('❌ Invalid email address format');
-      } else if (error.code === 'auth/weak-password') {
+      } else if (firebaseError.code === 'auth/weak-password') {
         alert('❌ Password is too weak. Use at least 6 characters.');
       } else {
-        alert(`❌ Failed to create user:\n\n${error.message || 'Unknown error'}`);
+        alert(`❌ Failed to create user:\n\n${firebaseError.message || 'Unknown error'}`);
       }
     }
   };
@@ -321,7 +322,7 @@ export default function UsersManagementPage() {
         <div className="bg-white shadow p-6 mb-6">
           <h3 className="text-xl font-bold text-gray-800 mb-2">Create New User</h3>
           <p className="text-sm text-gray-600 mb-4">
-            ⚠️ Use this ONLY for creating brand new users who don't have a Firebase account yet.<br/>
+            ⚠️ Use this ONLY for creating brand new users who don&apos;t have a Firebase account yet.<br/>
             🚫 Will fail if the email already exists in Firebase.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
