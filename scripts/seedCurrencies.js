@@ -1,0 +1,191 @@
+// Script to seed default currencies into Firestore
+// Run this with: node scripts/seedCurrencies.js
+
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin
+// You'll need to download your service account key from Firebase Console
+// and save it as 'serviceAccountKey.json' in the root directory
+try {
+  const serviceAccount = require('../serviceAccountKey.json');
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+} catch (error) {
+  console.error('Error: Please download your Firebase service account key');
+  console.error('Go to: Firebase Console > Project Settings > Service Accounts > Generate New Private Key');
+  console.error('Save it as serviceAccountKey.json in the root directory');
+  process.exit(1);
+}
+
+const db = admin.firestore();
+
+// Default currencies based on the rate board image
+const currencies = [
+  {
+    code: 'USD',
+    name: 'US Dollar',
+    flagUrl: 'https://flagcdn.com/w40/us.png',
+    buyRate: 26.230,
+    midRate: 26.365,
+    sellRate: 26.500,
+    order: 1
+  },
+  {
+    code: 'GBP',
+    name: 'British Pound',
+    flagUrl: 'https://flagcdn.com/w40/gb.png',
+    buyRate: 1.000,
+    midRate: 13.871,
+    sellRate: 26.742,
+    order: 2
+  },
+  {
+    code: 'EUR',
+    name: 'Euro',
+    flagUrl: 'https://flagcdn.com/w40/eu.png',
+    buyRate: 1.244,
+    midRate: 14.622,
+    sellRate: 28.000,
+    order: 3
+  },
+  {
+    code: 'AUD',
+    name: 'Australian Dollar',
+    flagUrl: 'https://flagcdn.com/w40/au.png',
+    buyRate: 1.053,
+    midRate: 1.656,
+    sellRate: 2.260,
+    order: 4
+  },
+  {
+    code: 'INR',
+    name: 'Indian Rupee',
+    flagUrl: 'https://flagcdn.com/w40/in.png',
+    buyRate: 0.610,
+    midRate: 1.012,
+    sellRate: 1.414,
+    order: 5
+  },
+  {
+    code: 'CNY',
+    name: 'Chinese Yuan',
+    flagUrl: 'https://flagcdn.com/w40/cn.png',
+    buyRate: 82.572,
+    midRate: 91.845,
+    sellRate: 1.121,
+    order: 6
+  },
+  {
+    code: 'CAD',
+    name: 'Canadian Dollar',
+    flagUrl: 'https://flagcdn.com/w40/ca.png',
+    buyRate: 7.785,
+    midRate: 42.772,
+    sellRate: 0.647,
+    order: 7
+  },
+  {
+    code: 'ZAR',
+    name: 'South African Rand',
+    flagUrl: 'https://flagcdn.com/w40/za.png',
+    buyRate: 1.384,
+    midRate: 1.623,
+    sellRate: 1.862,
+    order: 8
+  },
+  {
+    code: 'BWP',
+    name: 'Botswana Pula',
+    flagUrl: 'https://flagcdn.com/w40/bw.png',
+    buyRate: 17.804,
+    midRate: 16.678,
+    sellRate: 2.702,
+    order: 9
+  },
+  {
+    code: 'CHF',
+    name: 'Swiss Franc',
+    flagUrl: 'https://flagcdn.com/w40/ch.png',
+    buyRate: 0.070,
+    midRate: 13.713,
+    sellRate: 1.475,
+    order: 10
+  },
+  {
+    code: 'MWK',
+    name: 'Malawian Kwacha',
+    flagUrl: 'https://flagcdn.com/w40/mw.png',
+    buyRate: 0.853,
+    midRate: 9.462,
+    sellRate: 18.091,
+    order: 11
+  },
+  {
+    code: 'NAD',
+    name: 'Namibian Dollar',
+    flagUrl: 'https://flagcdn.com/w40/na.png',
+    buyRate: 0.000,
+    midRate: 0.490,
+    sellRate: 0.076,
+    order: 12
+  },
+  {
+    code: 'DKK',
+    name: 'Danish Krone',
+    flagUrl: 'https://flagcdn.com/w40/dk.png',
+    buyRate: 0.000,
+    midRate: 0.000,
+    sellRate: 0.506,
+    order: 13
+  },
+  {
+    code: 'JPY',
+    name: 'Japanese Yen',
+    flagUrl: 'https://flagcdn.com/w40/jp.png',
+    buyRate: 0.000,
+    midRate: 72.221,
+    sellRate: 0.000,
+    order: 14
+  }
+];
+
+async function seedCurrencies() {
+  console.log('🚀 Starting to seed currencies...\n');
+
+  try {
+    // Get reference to currencies collection
+    const currenciesRef = db.collection('currencies');
+
+    // Check if currencies already exist
+    const snapshot = await currenciesRef.get();
+    if (!snapshot.empty) {
+      console.log('⚠️  Warning: Currencies collection is not empty!');
+      console.log(`Found ${snapshot.size} existing currencies.`);
+      console.log('This script will add new currencies alongside existing ones.\n');
+    }
+
+    // Add each currency
+    for (const currency of currencies) {
+      const docRef = await currenciesRef.add({
+        ...currency,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+      console.log(`✅ Added ${currency.code} - ${currency.name} (ID: ${docRef.id})`);
+    }
+
+    console.log(`\n🎉 Successfully added ${currencies.length} currencies!`);
+    console.log('\n📊 Summary:');
+    currencies.forEach(c => {
+      console.log(`   ${c.code.padEnd(5)} - Buy: ${c.buyRate.toFixed(3)}, Mid: ${c.midRate.toFixed(3)}, Sell: ${c.sellRate.toFixed(3)}`);
+    });
+
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error seeding currencies:', error);
+    process.exit(1);
+  }
+}
+
+// Run the seed function
+seedCurrencies();
