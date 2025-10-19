@@ -172,15 +172,75 @@ export default function Home() {
           ) : (
             <div className="flex items-center justify-center h-full">
               <div className="relative">
-                {/* Glowing effect behind logo */}
-                <div className="absolute inset-0 bg-secondary/30 blur-3xl animate-pulse"></div>
-                <Image
-                  src="/logo.png"
-                  alt="Talk&Pay Logo"
-                  width={400}
-                  height={400}
-                  className="object-contain relative z-10"
-                />
+                {/* Bright spotlight behind logo for visibility */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/30 blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-secondary/40 via-white/30 to-accent/40 blur-2xl animate-pulse-slow"></div>
+
+                {/* Animated rotating rings around logo */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="absolute w-96 h-96 border-2 border-secondary/40 animate-spin-slow"></div>
+                  <div className="absolute w-80 h-80 border-2 border-accent/30 animate-spin-reverse" style={{ top: '8%', left: '8%' }}></div>
+                  <div className="absolute w-64 h-64 border border-primary-light/30 animate-spin-slower" style={{ top: '16%', left: '16%' }}></div>
+                </div>
+
+                {/* Pulsing orbs around logo */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+                  <div className="absolute top-0 left-1/2 w-4 h-4 bg-secondary blur-lg animate-orbit-1"></div>
+                  <div className="absolute top-1/2 right-0 w-3 h-3 bg-accent blur-lg animate-orbit-2"></div>
+                  <div className="absolute bottom-0 left-1/2 w-4 h-4 bg-primary-light blur-lg animate-orbit-3"></div>
+                  <div className="absolute top-1/2 left-0 w-3 h-3 bg-secondary blur-lg animate-orbit-4"></div>
+                </div>
+
+                {/* Financial symbols orbiting logo */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]">
+                  {/* Dollar signs */}
+                  <div className="absolute top-10 left-1/2 -translate-x-1/2 text-6xl font-bold text-green-400/60 animate-orbit-currency-1 drop-shadow-lg">$</div>
+                  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-5xl font-bold text-green-400/50 animate-orbit-currency-2 drop-shadow-lg">$</div>
+
+                  {/* Euro signs */}
+                  <div className="absolute top-1/2 right-10 -translate-y-1/2 text-5xl font-bold text-blue-400/60 animate-orbit-currency-3 drop-shadow-lg">€</div>
+                  <div className="absolute top-1/2 left-10 -translate-y-1/2 text-5xl font-bold text-blue-400/50 animate-orbit-currency-4 drop-shadow-lg">€</div>
+
+                  {/* Pound signs */}
+                  <div className="absolute top-20 right-20 text-4xl font-bold text-cyan-400/60 animate-orbit-currency-5 drop-shadow-lg">£</div>
+                  <div className="absolute bottom-20 left-20 text-4xl font-bold text-cyan-400/50 animate-orbit-currency-6 drop-shadow-lg">£</div>
+
+                  {/* Yen signs */}
+                  <div className="absolute top-20 left-20 text-4xl font-bold text-yellow-400/60 animate-orbit-currency-7 drop-shadow-lg">¥</div>
+                  <div className="absolute bottom-20 right-20 text-4xl font-bold text-yellow-400/50 animate-orbit-currency-8 drop-shadow-lg">¥</div>
+
+                  {/* Bitcoin symbol */}
+                  <div className="absolute top-1/3 right-16 text-5xl font-bold text-orange-400/60 animate-orbit-currency-9 drop-shadow-lg">₿</div>
+
+                  {/* Generic coin symbols */}
+                  <div className="absolute bottom-1/3 left-16 text-3xl text-amber-400/70 animate-orbit-currency-10 drop-shadow-lg">🪙</div>
+                  <div className="absolute top-1/4 left-1/4 text-3xl text-yellow-400/60 animate-orbit-currency-11 drop-shadow-lg">💰</div>
+                  <div className="absolute bottom-1/4 right-1/4 text-3xl text-green-400/60 animate-orbit-currency-12 drop-shadow-lg">💵</div>
+                </div>
+
+                {/* Central glowing pulse - brighter */}
+                <div className="absolute inset-0 bg-white/20 blur-3xl animate-pulse-slow"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-white/20 to-accent/20 blur-2xl animate-pulse-slower"></div>
+
+                {/* Logo with floating animation - enhanced brightness */}
+                <div className="relative z-10 animate-float">
+                  <div className="absolute inset-0 bg-white/10 blur-xl"></div>
+                  <Image
+                    src="/logo.png"
+                    alt="Talk&Pay Logo"
+                    width={400}
+                    height={400}
+                    className="object-contain drop-shadow-2xl relative z-10 brightness-110"
+                  />
+                </div>
+
+                {/* Radiating waves - more visible */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-72 h-72 border-2 border-secondary/50 animate-ping-slow"></div>
+                </div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-96 h-96 border-2 border-accent/40 animate-ping-slower"></div>
+                </div>
               </div>
             </div>
           )}
@@ -192,6 +252,70 @@ export default function Home() {
         {/* Decorative background elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 blur-3xl -z-0"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 blur-3xl -z-0"></div>
+
+        {/* Financial Data Stream Lines */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute top-10 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent animate-data-flow"></div>
+          <div className="absolute top-32 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary to-transparent animate-data-flow-delayed-1"></div>
+          <div className="absolute top-56 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent to-transparent animate-data-flow-delayed-2"></div>
+          <div className="absolute bottom-40 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent animate-data-flow-delayed-3"></div>
+          <div className="absolute bottom-20 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary to-transparent animate-data-flow"></div>
+        </div>
+
+        {/* Floating Currency Symbols */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-10 text-6xl font-bold text-primary animate-float-currency-1">$</div>
+          <div className="absolute top-40 right-20 text-5xl font-bold text-secondary animate-float-currency-2">€</div>
+          <div className="absolute bottom-60 left-20 text-5xl font-bold text-accent animate-float-currency-3">£</div>
+          <div className="absolute bottom-40 right-10 text-4xl font-bold text-primary-light animate-float-currency-4">¥</div>
+          <div className="absolute top-1/2 left-1/4 text-5xl font-bold text-secondary animate-float-currency-5">₹</div>
+          <div className="absolute top-1/3 right-1/3 text-4xl font-bold text-accent animate-float-currency-6">¥</div>
+        </div>
+
+        {/* Digital Number Rain */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 left-1/4 text-xs text-primary font-mono animate-number-rain-1">
+            <div>1.234</div>
+            <div>5.678</div>
+            <div>9.012</div>
+          </div>
+          <div className="absolute top-0 left-1/2 text-xs text-secondary font-mono animate-number-rain-2">
+            <div>0.987</div>
+            <div>6.543</div>
+            <div>2.109</div>
+          </div>
+          <div className="absolute top-0 left-3/4 text-xs text-accent font-mono animate-number-rain-3">
+            <div>8.765</div>
+            <div>4.321</div>
+            <div>0.543</div>
+          </div>
+        </div>
+
+        {/* Market Chart Line Animation */}
+        <svg className="absolute bottom-0 left-0 w-full h-32 opacity-10 pointer-events-none" viewBox="0 0 1000 200" preserveAspectRatio="none">
+          <path
+            d="M0,100 Q250,50 500,80 T1000,60"
+            fill="none"
+            stroke="url(#gradient1)"
+            strokeWidth="3"
+            className="animate-draw-line"
+          />
+          <defs>
+            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#003A70" stopOpacity="0.3" />
+              <stop offset="50%" stopColor="#00A8E8" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#00C8FF" stopOpacity="0.3" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Pulsing Data Dots */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-green-500 animate-pulse-data"></div>
+          <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-blue-500 animate-pulse-data-delayed"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-orange-500 animate-pulse-data"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-2 h-2 bg-green-500 animate-pulse-data-delayed"></div>
+        </div>
 
         {/* Header */}
         <div className="relative z-10 bg-white/80 backdrop-blur-sm shadow-lg p-4 mb-4 border border-gray-100">

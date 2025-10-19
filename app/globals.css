@@ -149,3 +149,615 @@ body {
   animation: streak-3 12s linear infinite;
   animation-delay: 4s;
 }
+
+/* Artistic Logo Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes orbit-1 {
+  0% {
+    transform: rotate(0deg) translateX(180px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) translateX(180px) rotate(-360deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes orbit-2 {
+  0% {
+    transform: rotate(90deg) translateX(180px) rotate(-90deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(450deg) translateX(180px) rotate(-450deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes orbit-3 {
+  0% {
+    transform: rotate(180deg) translateX(180px) rotate(-180deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(540deg) translateX(180px) rotate(-540deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes orbit-4 {
+  0% {
+    transform: rotate(270deg) translateX(180px) rotate(-270deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(630deg) translateX(180px) rotate(-630deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes ping-slow {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes ping-slower {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-slower {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 15s linear infinite;
+}
+
+.animate-spin-slower {
+  animation: spin-slow 25s linear infinite;
+}
+
+.animate-orbit-1 {
+  animation: orbit-1 12s linear infinite;
+}
+
+.animate-orbit-2 {
+  animation: orbit-2 14s linear infinite;
+  animation-delay: 1s;
+}
+
+.animate-orbit-3 {
+  animation: orbit-3 16s linear infinite;
+  animation-delay: 2s;
+}
+
+.animate-orbit-4 {
+  animation: orbit-4 13s linear infinite;
+  animation-delay: 3s;
+}
+
+.animate-ping-slow {
+  animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-ping-slower {
+  animation: ping-slower 4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-delay: 1s;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-pulse-slower {
+  animation: pulse-slower 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Financial Animations */
+@keyframes data-flow {
+  0% {
+    transform: translateX(-100%) scaleX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200%) scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes float-currency-1 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(30px, -50px) rotate(15deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-currency-2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(-40px, 60px) rotate(-20deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-currency-3 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(50px, -30px) rotate(10deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-currency-4 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(-30px, -40px) rotate(-15deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-currency-5 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(40px, 50px) rotate(25deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-currency-6 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(-50px, -60px) rotate(-10deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes number-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes draw-line {
+  0% {
+    stroke-dasharray: 0 1000;
+  }
+  100% {
+    stroke-dasharray: 1000 1000;
+  }
+}
+
+@keyframes pulse-data {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 1;
+  }
+}
+
+.animate-data-flow {
+  animation: data-flow 4s ease-in-out infinite;
+}
+
+.animate-data-flow-delayed-1 {
+  animation: data-flow 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-data-flow-delayed-2 {
+  animation: data-flow 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-data-flow-delayed-3 {
+  animation: data-flow 4.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-float-currency-1 {
+  animation: float-currency-1 15s ease-in-out infinite;
+}
+
+.animate-float-currency-2 {
+  animation: float-currency-2 18s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-float-currency-3 {
+  animation: float-currency-3 20s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.animate-float-currency-4 {
+  animation: float-currency-4 17s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-float-currency-5 {
+  animation: float-currency-5 19s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+.animate-float-currency-6 {
+  animation: float-currency-6 16s ease-in-out infinite;
+  animation-delay: 5s;
+}
+
+.animate-number-rain-1 {
+  animation: number-rain 8s linear infinite;
+}
+
+.animate-number-rain-2 {
+  animation: number-rain 10s linear infinite;
+  animation-delay: 2s;
+}
+
+.animate-number-rain-3 {
+  animation: number-rain 9s linear infinite;
+  animation-delay: 4s;
+}
+
+.animate-draw-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-line 3s ease-in-out infinite;
+}
+
+.animate-pulse-data {
+  animation: pulse-data 2s ease-in-out infinite;
+}
+
+.animate-pulse-data-delayed {
+  animation: pulse-data 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Currency Symbol Orbit Animations */
+@keyframes orbit-currency-1 {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2) rotate(180deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orbit-currency-2 {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(20px) scale(1.1) rotate(-180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(-360deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes orbit-currency-3 {
+  0% {
+    transform: translateX(0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(-20px) scale(1.15) rotate(180deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(0) scale(1) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orbit-currency-4 {
+  0% {
+    transform: translateX(0) scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(20px) scale(1.1) rotate(-180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0) scale(1) rotate(-360deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes orbit-currency-5 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-15px, -15px) scale(1.2) rotate(180deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orbit-currency-6 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(15px, 15px) scale(1.15) rotate(-180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(-360deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes orbit-currency-7 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(15px, -15px) scale(1.1) rotate(180deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orbit-currency-8 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-15px, 15px) scale(1.2) rotate(-180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(-360deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes orbit-currency-9 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-10px, 10px) scale(1.25) rotate(180deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orbit-currency-10 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(10px, -10px) scale(1.3) rotate(-180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(-360deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes orbit-currency-11 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(20px, 10px) scale(1.2) rotate(180deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orbit-currency-12 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-20px, -10px) scale(1.15) rotate(-180deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(-360deg);
+    opacity: 0.6;
+  }
+}
+
+.animate-orbit-currency-1 {
+  animation: orbit-currency-1 8s ease-in-out infinite;
+}
+
+.animate-orbit-currency-2 {
+  animation: orbit-currency-2 9s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.animate-orbit-currency-3 {
+  animation: orbit-currency-3 10s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-orbit-currency-4 {
+  animation: orbit-currency-4 11s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-orbit-currency-5 {
+  animation: orbit-currency-5 7s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-orbit-currency-6 {
+  animation: orbit-currency-6 8.5s ease-in-out infinite;
+  animation-delay: 2.5s;
+}
+
+.animate-orbit-currency-7 {
+  animation: orbit-currency-7 9.5s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+.animate-orbit-currency-8 {
+  animation: orbit-currency-8 10.5s ease-in-out infinite;
+  animation-delay: 3.5s;
+}
+
+.animate-orbit-currency-9 {
+  animation: orbit-currency-9 12s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-orbit-currency-10 {
+  animation: orbit-currency-10 11s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-orbit-currency-11 {
+  animation: orbit-currency-11 9s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.animate-orbit-currency-12 {
+  animation: orbit-currency-12 10s ease-in-out infinite;
+  animation-delay: 1.5s;
+}

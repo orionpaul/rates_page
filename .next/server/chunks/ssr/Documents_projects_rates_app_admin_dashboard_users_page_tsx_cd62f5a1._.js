@@ -24,10 +24,15 @@ function UsersManagementPage() {
     const [users, setUsers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [showAddForm, setShowAddForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const { userData } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAuth"])();
+    const [showExistingUserForm, setShowExistingUserForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const { userData, user } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAuth"])();
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         email: '',
         password: '',
+        role: 'editor'
+    });
+    const [existingUserData, setExistingUserData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
+        email: '',
         role: 'editor'
     });
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
@@ -62,7 +67,22 @@ function UsersManagementPage() {
         }
     };
     const handleAddUser = async ()=>{
+        // Validate inputs
+        if (!formData.email.trim()) {
+            alert('Please enter an email address');
+            return;
+        }
+        if (!formData.password || formData.password.length < 6) {
+            alert('Password must be at least 6 characters');
+            return;
+        }
         try {
+            // Check if user already exists in Supabase first
+            const { data: existingUsers } = await __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].from('users').select('*').eq('email', formData.email);
+            if (existingUsers && existingUsers.length > 0) {
+                alert(`User already exists!\n\n` + `Email: ${formData.email}\n` + `Current Role: ${existingUsers[0].role}\n\n` + `Use the "Update Existing User" button instead to change their role.`);
+                return;
+            }
             // Create Firebase Auth user
             const userCredential = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createUserWithEmailAndPassword"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$firebase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["auth"], formData.email, formData.password);
             // Add user document to Supabase
@@ -82,11 +102,67 @@ function UsersManagementPage() {
                 });
                 setShowAddForm(false);
                 fetchUsers();
-                alert('User created successfully');
+                alert(`✅ User created successfully!\n\nEmail: ${formData.email}\nRole: ${formData.role}`);
             }
         } catch (error) {
             console.error('Error adding user:', error);
-            alert(`Failed to create user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            // Handle specific Firebase errors
+            if (error.code === 'auth/email-already-in-use') {
+                alert(`❌ Email Already Exists in Firebase!\n\n` + `The email "${formData.email}" already has a Firebase Auth account.\n\n` + `Options:\n` + `1. Use "Update Existing User" button to set their role\n` + `2. Or use a different email address`);
+            } else if (error.code === 'auth/invalid-email') {
+                alert('❌ Invalid email address format');
+            } else if (error.code === 'auth/weak-password') {
+                alert('❌ Password is too weak. Use at least 6 characters.');
+            } else {
+                alert(`❌ Failed to create user:\n\n${error.message || 'Unknown error'}`);
+            }
+        }
+    };
+    const handleAddExistingUser = async ()=>{
+        if (!existingUserData.email.trim()) {
+            alert('Please enter an email address');
+            return;
+        }
+        try {
+            // Check if user already exists in Supabase
+            const { data: existingUsers } = await __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].from('users').select('*').eq('email', existingUserData.email);
+            if (existingUsers && existingUsers.length > 0) {
+                // Update existing user's role
+                const { error } = await __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].from('users').update({
+                    role: existingUserData.role
+                }).eq('email', existingUserData.email);
+                if (!error) {
+                    setExistingUserData({
+                        email: '',
+                        role: 'editor'
+                    });
+                    setShowExistingUserForm(false);
+                    fetchUsers();
+                    alert(`✅ User role updated successfully!\n\n` + `Email: ${existingUserData.email}\n` + `New Role: ${existingUserData.role}\n\n` + `They will need to log out and log back in for the role change to take effect.`);
+                } else {
+                    alert(`❌ Failed to update role: ${error.message}`);
+                }
+            } else {
+                // User doesn't exist in Supabase yet
+                alert(`⚠️ User Not Found in Supabase!\n\n` + `Email: ${existingUserData.email}\n\n` + `This user must log in via Firebase Auth at least once before you can update their role.\n\n` + `Steps:\n` + `1. Verify they have a Firebase Auth account\n` + `2. Ask them to login at /admin/login\n` + `3. After they login once, their account will be created in Supabase\n` + `4. Then you can set their role here\n\n` + `Or use "Create New User" to make a brand new account.`);
+            }
+        } catch (error) {
+            console.error('Error adding existing user:', error);
+            alert(`❌ Failed to update user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    };
+    const handleUpdateRole = async (uid, newRole)=>{
+        try {
+            const { error } = await __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$lib$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].from('users').update({
+                role: newRole
+            }).eq('uid', uid);
+            if (!error) {
+                fetchUsers();
+                alert('User role updated successfully');
+            }
+        } catch (error) {
+            console.error('Error updating role:', error);
+            alert('Failed to update role');
         }
     };
     const handleDeleteUser = async (userId)=>{
@@ -105,14 +181,14 @@ function UsersManagementPage() {
     };
     if (userData?.role !== 'admin') {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "bg-blue-50 border border-blue-200 rounded-lg p-6",
+            className: "bg-blue-50 border border-blue-200 p-6",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                     className: "text-red-800 font-semibold",
                     children: "Access Denied"
                 }, void 0, false, {
                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                    lineNumber: 108,
+                    lineNumber: 226,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -120,13 +196,13 @@ function UsersManagementPage() {
                     children: "Only administrators can manage users."
                 }, void 0, false, {
                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                    lineNumber: 109,
+                    lineNumber: 227,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-            lineNumber: 107,
+            lineNumber: 225,
             columnNumber: 7
         }, this);
     }
@@ -135,7 +211,7 @@ function UsersManagementPage() {
             children: "Loading..."
         }, void 0, false, {
             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-            lineNumber: 115,
+            lineNumber: 233,
             columnNumber: 12
         }, this);
     }
@@ -149,33 +225,73 @@ function UsersManagementPage() {
                         children: "Manage Users"
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                        lineNumber: 121,
+                        lineNumber: 239,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: ()=>setShowAddForm(!showAddForm),
-                        className: "bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition",
-                        children: showAddForm ? 'Cancel' : 'Add User'
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>{
+                                    setShowExistingUserForm(!showExistingUserForm);
+                                    setShowAddForm(false);
+                                },
+                                className: "bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition",
+                                children: showExistingUserForm ? 'Cancel' : 'Update Existing User'
+                            }, void 0, false, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 241,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>{
+                                    setShowAddForm(!showAddForm);
+                                    setShowExistingUserForm(false);
+                                },
+                                className: "bg-primary text-white px-4 py-2 hover:bg-primary-dark transition",
+                                children: showAddForm ? 'Cancel' : 'Create New User'
+                            }, void 0, false, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 250,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                        lineNumber: 122,
+                        lineNumber: 240,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                lineNumber: 120,
+                lineNumber: 238,
                 columnNumber: 7
             }, this),
-            showAddForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded-lg shadow p-6 mb-6",
+            showExistingUserForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-blue-50 border-2 border-secondary shadow p-6 mb-6",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                        className: "text-xl font-bold text-gray-800 mb-4",
-                        children: "Add New User"
+                        className: "text-xl font-bold text-gray-800 mb-2",
+                        children: "Update Existing Firebase User"
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                        lineNumber: 133,
+                        lineNumber: 265,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-sm text-gray-600 mb-4",
+                        children: [
+                            "✅ Use this for users who already have a Firebase Auth account and have logged in at least once.",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 267,
+                                columnNumber: 108
+                            }, this),
+                            "💡 Example: orionpaul@gmail.com (your account)"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                        lineNumber: 266,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -188,57 +304,27 @@ function UsersManagementPage() {
                                         children: "Email Address"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 136,
+                                        lineNumber: 272,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "email",
-                                        value: formData.email,
-                                        onChange: (e)=>setFormData({
-                                                ...formData,
+                                        value: existingUserData.email,
+                                        onChange: (e)=>setExistingUserData({
+                                                ...existingUserData,
                                                 email: e.target.value
                                             }),
-                                        className: "w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary outline-none",
-                                        placeholder: "user@example.com"
+                                        className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none",
+                                        placeholder: "existing@example.com"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 139,
+                                        lineNumber: 275,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                lineNumber: 135,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                        className: "block text-sm font-medium text-gray-700 mb-2",
-                                        children: "Password"
-                                    }, void 0, false, {
-                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 148,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                        type: "password",
-                                        value: formData.password,
-                                        onChange: (e)=>setFormData({
-                                                ...formData,
-                                                password: e.target.value
-                                            }),
-                                        className: "w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary outline-none",
-                                        placeholder: "Min 6 characters"
-                                    }, void 0, false, {
-                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 151,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                lineNumber: 147,
+                                lineNumber: 271,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -248,7 +334,188 @@ function UsersManagementPage() {
                                         children: "Role"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 160,
+                                        lineNumber: 284,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                        value: existingUserData.role,
+                                        onChange: (e)=>setExistingUserData({
+                                                ...existingUserData,
+                                                role: e.target.value
+                                            }),
+                                        className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                value: "editor",
+                                                children: "Editor"
+                                            }, void 0, false, {
+                                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                                lineNumber: 294,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                value: "admin",
+                                                children: "Admin"
+                                            }, void 0, false, {
+                                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                                lineNumber: 295,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                        lineNumber: 287,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 283,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                        lineNumber: 270,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mt-4 flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: handleAddExistingUser,
+                                className: "bg-secondary text-white px-6 py-2 hover:bg-secondary/90 transition",
+                                children: "Update User Role"
+                            }, void 0, false, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 300,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>{
+                                    setShowExistingUserForm(false);
+                                    setExistingUserData({
+                                        email: '',
+                                        role: 'editor'
+                                    });
+                                },
+                                className: "bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition",
+                                children: "Cancel"
+                            }, void 0, false, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 306,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                        lineNumber: 299,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                lineNumber: 264,
+                columnNumber: 9
+            }, this),
+            showAddForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-white shadow p-6 mb-6",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                        className: "text-xl font-bold text-gray-800 mb-2",
+                        children: "Create New User"
+                    }, void 0, false, {
+                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                        lineNumber: 322,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-sm text-gray-600 mb-4",
+                        children: [
+                            "⚠️ Use this ONLY for creating brand new users who don't have a Firebase account yet.",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 324,
+                                columnNumber: 97
+                            }, this),
+                            "🚫 Will fail if the email already exists in Firebase."
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                        lineNumber: 323,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "grid grid-cols-1 md:grid-cols-2 gap-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        className: "block text-sm font-medium text-gray-700 mb-2",
+                                        children: "Email Address"
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                        lineNumber: 329,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        type: "email",
+                                        value: formData.email,
+                                        onChange: (e)=>setFormData({
+                                                ...formData,
+                                                email: e.target.value
+                                            }),
+                                        className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none",
+                                        placeholder: "newuser@example.com"
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                        lineNumber: 332,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 328,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        className: "block text-sm font-medium text-gray-700 mb-2",
+                                        children: "Password"
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                        lineNumber: 341,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        type: "password",
+                                        value: formData.password,
+                                        onChange: (e)=>setFormData({
+                                                ...formData,
+                                                password: e.target.value
+                                            }),
+                                        className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none",
+                                        placeholder: "Min 6 characters"
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                        lineNumber: 344,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                lineNumber: 340,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        className: "block text-sm font-medium text-gray-700 mb-2",
+                                        children: "Role"
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                        lineNumber: 353,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -257,14 +524,14 @@ function UsersManagementPage() {
                                                 ...formData,
                                                 role: e.target.value
                                             }),
-                                        className: "w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary outline-none",
+                                        className: "w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                 value: "editor",
                                                 children: "Editor"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                                lineNumber: 170,
+                                                lineNumber: 363,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -272,25 +539,25 @@ function UsersManagementPage() {
                                                 children: "Admin"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                                lineNumber: 171,
+                                                lineNumber: 364,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 163,
+                                        lineNumber: 356,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                lineNumber: 159,
+                                lineNumber: 352,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                        lineNumber: 134,
+                        lineNumber: 327,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -298,11 +565,11 @@ function UsersManagementPage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: handleAddUser,
-                                className: "bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition",
+                                className: "bg-primary text-white px-6 py-2 hover:bg-primary-dark transition",
                                 children: "Create User"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                lineNumber: 176,
+                                lineNumber: 369,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -314,27 +581,27 @@ function UsersManagementPage() {
                                         role: 'editor'
                                     });
                                 },
-                                className: "bg-gray-300 text-gray-700 px-6 py-2 rounded hover:bg-gray-400 transition",
+                                className: "bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition",
                                 children: "Cancel"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                lineNumber: 182,
+                                lineNumber: 375,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                        lineNumber: 175,
+                        lineNumber: 368,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                lineNumber: 132,
+                lineNumber: 321,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded-lg shadow overflow-hidden",
+                className: "bg-white shadow overflow-hidden",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
                     className: "w-full",
                     children: [
@@ -347,7 +614,7 @@ function UsersManagementPage() {
                                         children: "Email"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 393,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -355,7 +622,7 @@ function UsersManagementPage() {
                                         children: "Role"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 203,
+                                        lineNumber: 396,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -363,7 +630,7 @@ function UsersManagementPage() {
                                         children: "Created At"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 206,
+                                        lineNumber: 399,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -371,104 +638,134 @@ function UsersManagementPage() {
                                         children: "Actions"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                        lineNumber: 209,
+                                        lineNumber: 402,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                lineNumber: 199,
+                                lineNumber: 392,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                            lineNumber: 198,
+                            lineNumber: 391,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                             className: "divide-y divide-gray-200",
-                            children: users.map((user)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                            children: users.map((currentUser)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             className: "px-6 py-4",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "text-sm font-medium text-gray-900",
-                                                children: user.email
-                                            }, void 0, false, {
-                                                fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                                lineNumber: 218,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-sm font-medium text-gray-900",
+                                                    children: currentUser.email
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                                    lineNumber: 411,
+                                                    columnNumber: 19
+                                                }, this),
+                                                user?.email === currentUser.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-xs text-secondary font-semibold",
+                                                    children: "(You)"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                                    lineNumber: 413,
+                                                    columnNumber: 21
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                            lineNumber: 217,
+                                            lineNumber: 410,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             className: "px-6 py-4",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: `px-2 py-1 text-xs rounded capitalize ${user.role === 'admin' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`,
-                                                children: user.role
-                                            }, void 0, false, {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                value: currentUser.role,
+                                                onChange: (e)=>handleUpdateRole(currentUser.uid, e.target.value),
+                                                className: "px-2 py-1 text-xs border border-gray-300 focus:ring-2 focus:ring-primary outline-none",
+                                                disabled: user?.email === currentUser.email,
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                        value: "editor",
+                                                        children: "Editor"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                                        lineNumber: 423,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                        value: "admin",
+                                                        children: "Admin"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
+                                                        lineNumber: 424,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                                lineNumber: 221,
+                                                lineNumber: 417,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                            lineNumber: 220,
+                                            lineNumber: 416,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             className: "px-6 py-4 text-sm text-gray-500",
-                                            children: user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'
+                                            children: currentUser.createdAt ? new Date(currentUser.createdAt).toLocaleDateString() : 'N/A'
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                            lineNumber: 231,
+                                            lineNumber: 427,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             className: "px-6 py-4 text-right text-sm",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                onClick: ()=>handleDeleteUser(user.uid),
+                                            children: user?.email !== currentUser.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>handleDeleteUser(currentUser.uid),
                                                 className: "text-red-600 hover:text-red-900",
                                                 children: "Delete"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                                lineNumber: 237,
-                                                columnNumber: 19
+                                                lineNumber: 434,
+                                                columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                            lineNumber: 236,
+                                            lineNumber: 432,
                                             columnNumber: 17
                                         }, this)
                                     ]
-                                }, user.uid, true, {
+                                }, currentUser.uid, true, {
                                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                                    lineNumber: 216,
+                                    lineNumber: 409,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                            lineNumber: 214,
+                            lineNumber: 407,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                    lineNumber: 197,
+                    lineNumber: 390,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-                lineNumber: 196,
+                lineNumber: 389,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Documents/projects/rates/app/admin/dashboard/users/page.tsx",
-        lineNumber: 119,
+        lineNumber: 237,
         columnNumber: 5
     }, this);
 }

@@ -11,11 +11,17 @@ export default function UsersManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
-  const { userData } = useAuth();
+  const [showExistingUserForm, setShowExistingUserForm] = useState(false);
+  const { userData, user } = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    role: 'editor' as 'admin' | 'editor',
+  });
+
+  const [existingUserData, setExistingUserData] = useState({
+    email: '',
     role: 'editor' as 'admin' | 'editor',
   });
 
@@ -53,7 +59,33 @@ export default function UsersManagementPage() {
   };
 
   const handleAddUser = async () => {
+    // Validate inputs
+    if (!formData.email.trim()) {
+      alert('Please enter an email address');
+      return;
+    }
+    if (!formData.password || formData.password.length < 6) {
+      alert('Password must be at least 6 characters');
+      return;
+    }
+
     try {
+      // Check if user already exists in Supabase first
+      const { data: existingUsers } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', formData.email);
+
+      if (existingUsers && existingUsers.length > 0) {
+        alert(
+          `User already exists!\n\n` +
+          `Email: ${formData.email}\n` +
+          `Current Role: ${existingUsers[0].role}\n\n` +
+          `Use the "Update Existing User" button instead to change their role.`
+        );
+        return;
+      }
+
       // Create Firebase Auth user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -75,11 +107,97 @@ export default function UsersManagementPage() {
         setFormData({ email: '', password: '', role: 'editor' });
         setShowAddForm(false);
         fetchUsers();
-        alert('User created successfully');
+        alert(`✅ User created successfully!\n\nEmail: ${formData.email}\nRole: ${formData.role}`);
+      }
+    } catch (error: any) {
+      console.error('Error adding user:', error);
+
+      // Handle specific Firebase errors
+      if (error.code === 'auth/email-already-in-use') {
+        alert(
+          `❌ Email Already Exists in Firebase!\n\n` +
+          `The email "${formData.email}" already has a Firebase Auth account.\n\n` +
+          `Options:\n` +
+          `1. Use "Update Existing User" button to set their role\n` +
+          `2. Or use a different email address`
+        );
+      } else if (error.code === 'auth/invalid-email') {
+        alert('❌ Invalid email address format');
+      } else if (error.code === 'auth/weak-password') {
+        alert('❌ Password is too weak. Use at least 6 characters.');
+      } else {
+        alert(`❌ Failed to create user:\n\n${error.message || 'Unknown error'}`);
+      }
+    }
+  };
+
+  const handleAddExistingUser = async () => {
+    if (!existingUserData.email.trim()) {
+      alert('Please enter an email address');
+      return;
+    }
+
+    try {
+      // Check if user already exists in Supabase
+      const { data: existingUsers } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', existingUserData.email);
+
+      if (existingUsers && existingUsers.length > 0) {
+        // Update existing user's role
+        const { error } = await supabase
+          .from('users')
+          .update({ role: existingUserData.role })
+          .eq('email', existingUserData.email);
+
+        if (!error) {
+          setExistingUserData({ email: '', role: 'editor' });
+          setShowExistingUserForm(false);
+          fetchUsers();
+          alert(
+            `✅ User role updated successfully!\n\n` +
+            `Email: ${existingUserData.email}\n` +
+            `New Role: ${existingUserData.role}\n\n` +
+            `They will need to log out and log back in for the role change to take effect.`
+          );
+        } else {
+          alert(`❌ Failed to update role: ${error.message}`);
+        }
+      } else {
+        // User doesn't exist in Supabase yet
+        alert(
+          `⚠️ User Not Found in Supabase!\n\n` +
+          `Email: ${existingUserData.email}\n\n` +
+          `This user must log in via Firebase Auth at least once before you can update their role.\n\n` +
+          `Steps:\n` +
+          `1. Verify they have a Firebase Auth account\n` +
+          `2. Ask them to login at /admin/login\n` +
+          `3. After they login once, their account will be created in Supabase\n` +
+          `4. Then you can set their role here\n\n` +
+          `Or use "Create New User" to make a brand new account.`
+        );
       }
     } catch (error) {
-      console.error('Error adding user:', error);
-      alert(`Failed to create user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Error adding existing user:', error);
+      alert(`❌ Failed to update user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleUpdateRole = async (uid: string, newRole: 'admin' | 'editor') => {
+    try {
+      const { error } = await supabase
+        .from('users')
+        .update({ role: newRole })
+        .eq('uid', uid);
+
+      if (!error) {
+        fetchUsers();
+        alert('User role updated successfully');
+      }
+    } catch (error) {
+      console.error('Error updating role:', error);
+      alert('Failed to update role');
     }
   };
 
@@ -104,7 +222,7 @@ export default function UsersManagementPage() {
 
   if (userData?.role !== 'admin') {
     return (
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+      <div className="bg-blue-50 border border-blue-200 p-6">
         <h3 className="text-red-800 font-semibold">Access Denied</h3>
         <p className="text-red-600 mt-2">Only administrators can manage users.</p>
       </div>
@@ -119,18 +237,93 @@ export default function UsersManagementPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-gray-800">Manage Users</h2>
-        <button
-          onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
-        >
-          {showAddForm ? 'Cancel' : 'Add User'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setShowExistingUserForm(!showExistingUserForm);
+              setShowAddForm(false);
+            }}
+            className="bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition"
+          >
+            {showExistingUserForm ? 'Cancel' : 'Update Existing User'}
+          </button>
+          <button
+            onClick={() => {
+              setShowAddForm(!showAddForm);
+              setShowExistingUserForm(false);
+            }}
+            className="bg-primary text-white px-4 py-2 hover:bg-primary-dark transition"
+          >
+            {showAddForm ? 'Cancel' : 'Create New User'}
+          </button>
+        </div>
       </div>
 
-      {/* Add User Form */}
+      {/* Update Existing User Form */}
+      {showExistingUserForm && (
+        <div className="bg-blue-50 border-2 border-secondary shadow p-6 mb-6">
+          <h3 className="text-xl font-bold text-gray-800 mb-2">Update Existing Firebase User</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            ✅ Use this for users who already have a Firebase Auth account and have logged in at least once.<br/>
+            💡 Example: orionpaul@gmail.com (your account)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={existingUserData.email}
+                onChange={(e) => setExistingUserData({ ...existingUserData, email: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none"
+                placeholder="existing@example.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Role
+              </label>
+              <select
+                value={existingUserData.role}
+                onChange={(e) =>
+                  setExistingUserData({ ...existingUserData, role: e.target.value as 'admin' | 'editor' })
+                }
+                className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-secondary outline-none"
+              >
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+          <div className="mt-4 flex gap-2">
+            <button
+              onClick={handleAddExistingUser}
+              className="bg-secondary text-white px-6 py-2 hover:bg-secondary/90 transition"
+            >
+              Update User Role
+            </button>
+            <button
+              onClick={() => {
+                setShowExistingUserForm(false);
+                setExistingUserData({ email: '', role: 'editor' });
+              }}
+              className="bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Create New User Form */}
       {showAddForm && (
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Add New User</h3>
+        <div className="bg-white shadow p-6 mb-6">
+          <h3 className="text-xl font-bold text-gray-800 mb-2">Create New User</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            ⚠️ Use this ONLY for creating brand new users who don't have a Firebase account yet.<br/>
+            🚫 Will fail if the email already exists in Firebase.
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -140,8 +333,8 @@ export default function UsersManagementPage() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary outline-none"
-                placeholder="user@example.com"
+                className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none"
+                placeholder="newuser@example.com"
               />
             </div>
             <div>
@@ -152,7 +345,7 @@ export default function UsersManagementPage() {
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary outline-none"
+                className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none"
                 placeholder="Min 6 characters"
               />
             </div>
@@ -165,7 +358,7 @@ export default function UsersManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, role: e.target.value as 'admin' | 'editor' })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary outline-none"
+                className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary outline-none"
               >
                 <option value="editor">Editor</option>
                 <option value="admin">Admin</option>
@@ -175,7 +368,7 @@ export default function UsersManagementPage() {
           <div className="mt-4 flex gap-2">
             <button
               onClick={handleAddUser}
-              className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition"
+              className="bg-primary text-white px-6 py-2 hover:bg-primary-dark transition"
             >
               Create User
             </button>
@@ -184,7 +377,7 @@ export default function UsersManagementPage() {
                 setShowAddForm(false);
                 setFormData({ email: '', password: '', role: 'editor' });
               }}
-              className="bg-gray-300 text-gray-700 px-6 py-2 rounded hover:bg-gray-400 transition"
+              className="bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition"
             >
               Cancel
             </button>
@@ -193,7 +386,7 @@ export default function UsersManagementPage() {
       )}
 
       {/* Users Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white shadow overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
@@ -212,34 +405,39 @@ export default function UsersManagementPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {users.map((user) => (
-              <tr key={user.uid}>
+            {users.map((currentUser) => (
+              <tr key={currentUser.uid}>
                 <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-gray-900">{user.email}</div>
+                  <div className="text-sm font-medium text-gray-900">{currentUser.email}</div>
+                  {user?.email === currentUser.email && (
+                    <span className="text-xs text-secondary font-semibold">(You)</span>
+                  )}
                 </td>
                 <td className="px-6 py-4">
-                  <span
-                    className={`px-2 py-1 text-xs rounded capitalize ${
-                      user.role === 'admin'
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-200 text-gray-700'
-                    }`}
+                  <select
+                    value={currentUser.role}
+                    onChange={(e) => handleUpdateRole(currentUser.uid, e.target.value as 'admin' | 'editor')}
+                    className="px-2 py-1 text-xs border border-gray-300 focus:ring-2 focus:ring-primary outline-none"
+                    disabled={user?.email === currentUser.email}
                   >
-                    {user.role}
-                  </span>
+                    <option value="editor">Editor</option>
+                    <option value="admin">Admin</option>
+                  </select>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
-                  {user.createdAt
-                    ? new Date(user.createdAt).toLocaleDateString()
+                  {currentUser.createdAt
+                    ? new Date(currentUser.createdAt).toLocaleDateString()
                     : 'N/A'}
                 </td>
                 <td className="px-6 py-4 text-right text-sm">
-                  <button
-                    onClick={() => handleDeleteUser(user.uid)}
-                    className="text-red-600 hover:text-red-900"
-                  >
-                    Delete
-                  </button>
+                  {user?.email !== currentUser.email && (
+                    <button
+                      onClick={() => handleDeleteUser(currentUser.uid)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
