@@ -6,10 +6,19 @@ import { Currency, Media } from '@/types';
 import Image from 'next/image';
 import YouTube from 'react-youtube';
 
+interface TickerMessage {
+  id: string;
+  message: string;
+  icon: string;
+  is_active: boolean;
+  display_order: number;
+}
+
 export default function Home() {
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [media, setMedia] = useState<Media | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [tickerMessages, setTickerMessages] = useState<TickerMessage[]>([]);
 
   useEffect(() => {
     // Fetch currencies and subscribe to updates
