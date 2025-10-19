@@ -67,8 +67,22 @@ export default function Home() {
       }
     };
 
+    // Fetch ticker messages
+    const fetchTickerMessages = async () => {
+      const { data, error } = await supabase
+        .from('ticker_messages')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order', { ascending: true });
+
+      if (data && !error) {
+        setTickerMessages(data);
+      }
+    };
+
     fetchCurrencies();
     fetchMedia();
+    fetchTickerMessages();
 
     // Subscribe to real-time updates for currencies with instant refresh
     const currenciesSubscription = supabase
@@ -100,6 +114,21 @@ export default function Home() {
         console.log('Media subscription status:', status);
       });
 
+    // Subscribe to real-time updates for ticker messages with instant refresh
+    const tickerSubscription = supabase
+      .channel('public:ticker_messages')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'ticker_messages'
+      }, (payload) => {
+        console.log('Ticker message change detected:', payload);
+        fetchTickerMessages(); // Instant refresh on any change
+      })
+      .subscribe((status) => {
+        console.log('Ticker subscription status:', status);
+      });
+
     // Update time every second
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -108,6 +137,7 @@ export default function Home() {
     return () => {
       supabase.removeChannel(currenciesSubscription);
       supabase.removeChannel(mediaSubscription);
+      supabase.removeChannel(tickerSubscription);
       clearInterval(timer);
     };
   }, []);
@@ -115,6 +145,30 @@ export default function Home() {
   const getYouTubeVideoId = (url: string) => {
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
     return match?.[1] || '';
+  };
+
+  const getIconSvg = (icon: string) => {
+    switch (icon) {
+      case 'clock':
+        return (
+          <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+          </svg>
+        );
+      case 'mail':
+        return (
+          <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+        );
+      default: // 'info'
+        return (
+          <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+          </svg>
+        );
+    }
   };
 
   return (
@@ -498,53 +552,27 @@ export default function Home() {
               <div className="flex animate-scroll-left whitespace-nowrap">
                 {/* Duplicate text for seamless loop */}
                 <div className="flex items-center gap-8 pr-8">
-                  <span className="text-white text-lg font-semibold flex items-center gap-3">
-                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
-                    <span>Rates are indicative and subject to change without prior notice</span>
-                  </span>
-                  <span className="text-secondary-light text-lg">•</span>
-                  <span className="text-white text-lg font-semibold flex items-center gap-3">
-                    <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    <span>Updated in real-time for your convenience</span>
-                  </span>
-                  <span className="text-secondary-light text-lg">•</span>
-                  <span className="text-white text-lg font-semibold flex items-center gap-3">
-                    <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    <span>Contact us for large transactions and special rates</span>
-                  </span>
-                  <span className="text-secondary-light text-lg">•</span>
+                  {tickerMessages.map((message) => (
+                    <span key={`msg1-${message.id}`} className="text-white text-lg font-semibold flex items-center gap-3">
+                      {getIconSvg(message.icon)}
+                      <span>{message.message}</span>
+                    </span>
+                  ))}
+                  {tickerMessages.map((_, index) => (
+                    <span key={`sep1-${index}`} className="text-secondary-light text-lg">•</span>
+                  ))}
                 </div>
                 {/* Duplicate for seamless loop */}
                 <div className="flex items-center gap-8 pr-8">
-                  <span className="text-white text-lg font-semibold flex items-center gap-3">
-                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
-                    <span>Rates are indicative and subject to change without prior notice</span>
-                  </span>
-                  <span className="text-secondary-light text-lg">•</span>
-                  <span className="text-white text-lg font-semibold flex items-center gap-3">
-                    <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    <span>Updated in real-time for your convenience</span>
-                  </span>
-                  <span className="text-secondary-light text-lg">•</span>
-                  <span className="text-white text-lg font-semibold flex items-center gap-3">
-                    <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    <span>Contact us for large transactions and special rates</span>
-                  </span>
-                  <span className="text-secondary-light text-lg">•</span>
+                  {tickerMessages.map((message) => (
+                    <span key={`msg2-${message.id}`} className="text-white text-lg font-semibold flex items-center gap-3">
+                      {getIconSvg(message.icon)}
+                      <span>{message.message}</span>
+                    </span>
+                  ))}
+                  {tickerMessages.map((_, index) => (
+                    <span key={`sep2-${index}`} className="text-secondary-light text-lg">•</span>
+                  ))}
                 </div>
               </div>
             </div>
