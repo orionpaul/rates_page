@@ -290,14 +290,14 @@ export default function MediaManagementPage() {
   }
 
   return (
-    <div>
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Manage Media</h2>
+    <div className="p-2 md:p-0">
+      <h2 className="text-xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-6">Manage Media</h2>
 
       {/* Add Media Forms */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-8">
         {/* YouTube URL Form */}
-        <div className="bg-white shadow p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Add YouTube Video</h3>
+        <div className="bg-white shadow p-4 md:p-6">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">Add YouTube Video</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -321,8 +321,8 @@ export default function MediaManagementPage() {
         </div>
 
         {/* Image Upload Form */}
-        <div className="bg-white shadow p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Upload Image</h3>
+        <div className="bg-white shadow p-4 md:p-6">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">Upload Image</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -347,12 +347,12 @@ export default function MediaManagementPage() {
       </div>
 
       {/* News Ticker Management */}
-      <div className="bg-white shadow p-6 mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold text-gray-800">News Ticker Messages</h3>
+      <div className="bg-white shadow p-3 md:p-6 mb-4 md:mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 md:mb-4 gap-2">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800">News Ticker Messages</h3>
           <button
             onClick={() => setShowTickerForm(!showTickerForm)}
-            className="bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition text-sm"
+            className="bg-secondary text-white px-3 md:px-4 py-2 hover:bg-secondary/90 transition text-xs md:text-sm whitespace-nowrap"
           >
             {showTickerForm ? 'Cancel' : '+ Add Message'}
           </button>

@@ -252,9 +252,10 @@ function MediaManagementPage() {
         }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "p-2 md:p-0",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                className: "text-3xl font-bold text-gray-800 mb-6",
+                className: "text-xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-6",
                 children: "Manage Media"
             }, void 0, false, {
                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
@@ -262,13 +263,13 @@ function MediaManagementPage() {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 md:grid-cols-2 gap-6 mb-8",
+                className: "grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-8",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "bg-white shadow p-6",
+                        className: "bg-white shadow p-4 md:p-6",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-xl font-bold text-gray-800 mb-4",
+                                className: "text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4",
                                 children: "Add YouTube Video"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
@@ -327,10 +328,10 @@ function MediaManagementPage() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "bg-white shadow p-6",
+                        className: "bg-white shadow p-4 md:p-6",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-xl font-bold text-gray-800 mb-4",
+                                className: "text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4",
                                 children: "Upload Image"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
@@ -395,13 +396,13 @@ function MediaManagementPage() {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white shadow p-6 mb-8",
+                className: "bg-white shadow p-3 md:p-6 mb-4 md:mb-8",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-between items-center mb-4",
+                        className: "flex flex-col md:flex-row justify-between items-start md:items-center mb-3 md:mb-4 gap-2",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-xl font-bold text-gray-800",
+                                className: "text-lg md:text-xl font-bold text-gray-800",
                                 children: "News Ticker Messages"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",
@@ -410,7 +411,7 @@ function MediaManagementPage() {
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: ()=>setShowTickerForm(!showTickerForm),
-                                className: "bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition text-sm",
+                                className: "bg-secondary text-white px-3 md:px-4 py-2 hover:bg-secondary/90 transition text-xs md:text-sm whitespace-nowrap",
                                 children: showTickerForm ? 'Cancel' : '+ Add Message'
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/admin/dashboard/media/page.tsx",

@@ -219,7 +219,7 @@ function Home() {
         className: "h-screen w-screen overflow-hidden bg-white flex flex-col md:flex-row",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "w-full md:w-1/2 h-1/3 md:h-full relative overflow-hidden",
+                className: "hidden md:block md:w-1/2 h-full relative overflow-hidden",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-black",
@@ -319,7 +319,7 @@ function Home() {
                                     width: '100%',
                                     playerVars: {
                                         autoplay: 1,
-                                        mute: 0,
+                                        mute: 1,
                                         loop: 1,
                                         playlist: getYouTubeVideoId(media.url),
                                         controls: 0,
@@ -330,6 +330,9 @@ function Home() {
                                 },
                                 onEnd: (event)=>{
                                     event.target.playVideo(); // Restart video when it ends
+                                },
+                                onReady: (event)=>{
+                                    event.target.playVideo(); // Force play on ready
                                 },
                                 className: "w-full h-full"
                             }, void 0, false, {
@@ -348,7 +351,7 @@ function Home() {
                             className: "object-cover"
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                            lineNumber: 229,
+                            lineNumber: 232,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex items-center justify-center h-full",
@@ -359,42 +362,42 @@ function Home() {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-white/40 blur-3xl animate-electric-pulse"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 239,
+                                        lineNumber: 242,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/50 blur-3xl animate-electric-pulse-delayed"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 240,
+                                        lineNumber: 243,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/60 blur-2xl animate-electric-pulse-fast"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 241,
+                                        lineNumber: 244,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-100/40 blur-xl animate-pulse-slow"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 242,
+                                        lineNumber: 245,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/15 blur-3xl animate-matrix-pulse"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 245,
+                                        lineNumber: 248,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-400/20 blur-2xl animate-matrix-pulse-delayed"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 246,
+                                        lineNumber: 249,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -405,7 +408,7 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 249,
+                                        lineNumber: 252,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -415,7 +418,7 @@ function Home() {
                                                 className: "absolute w-96 h-96 border-2 border-secondary/40 animate-spin-slow"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 256,
+                                                lineNumber: 259,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -426,7 +429,7 @@ function Home() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 257,
+                                                lineNumber: 260,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -437,13 +440,13 @@ function Home() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 258,
+                                                lineNumber: 261,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 255,
+                                        lineNumber: 258,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -453,34 +456,34 @@ function Home() {
                                                 className: "absolute top-0 left-1/2 w-4 h-4 bg-secondary blur-lg animate-orbit-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 263,
+                                                lineNumber: 266,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute top-1/2 right-0 w-3 h-3 bg-accent blur-lg animate-orbit-2"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 264,
+                                                lineNumber: 267,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute bottom-0 left-1/2 w-4 h-4 bg-primary-light blur-lg animate-orbit-3"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 265,
+                                                lineNumber: 268,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute top-1/2 left-0 w-3 h-3 bg-secondary blur-lg animate-orbit-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 266,
+                                                lineNumber: 269,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 262,
+                                        lineNumber: 265,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -491,7 +494,7 @@ function Home() {
                                                 children: "$"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 272,
+                                                lineNumber: 275,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -499,7 +502,7 @@ function Home() {
                                                 children: "$"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 273,
+                                                lineNumber: 276,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -507,7 +510,7 @@ function Home() {
                                                 children: "€"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 276,
+                                                lineNumber: 279,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -515,7 +518,7 @@ function Home() {
                                                 children: "€"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 277,
+                                                lineNumber: 280,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -523,7 +526,7 @@ function Home() {
                                                 children: "£"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 280,
+                                                lineNumber: 283,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -531,7 +534,7 @@ function Home() {
                                                 children: "£"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 281,
+                                                lineNumber: 284,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -539,7 +542,7 @@ function Home() {
                                                 children: "¥"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 284,
+                                                lineNumber: 287,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -547,7 +550,7 @@ function Home() {
                                                 children: "¥"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 285,
+                                                lineNumber: 288,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -555,7 +558,7 @@ function Home() {
                                                 children: "₿"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 288,
+                                                lineNumber: 291,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -563,7 +566,7 @@ function Home() {
                                                 children: "🪙"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 291,
+                                                lineNumber: 294,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -571,7 +574,7 @@ function Home() {
                                                 children: "💰"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 292,
+                                                lineNumber: 295,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -579,34 +582,34 @@ function Home() {
                                                 children: "💵"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 293,
+                                                lineNumber: 296,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 270,
+                                        lineNumber: 273,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute inset-0 bg-green-400/30 blur-3xl animate-matrix-pulse"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 297,
+                                        lineNumber: 300,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute inset-0 bg-white/20 blur-3xl animate-pulse-slow"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 298,
+                                        lineNumber: 301,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-400/30 to-green-500/20 blur-2xl animate-pulse-slower"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 299,
+                                        lineNumber: 302,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -616,35 +619,35 @@ function Home() {
                                                 className: "absolute inset-0 bg-white/70 blur-3xl animate-electric-pulse"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 304,
+                                                lineNumber: 307,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute inset-0 bg-blue-200/50 blur-2xl animate-electric-pulse-delayed"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 305,
+                                                lineNumber: 308,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute inset-0 bg-white/80 blur-xl animate-electric-pulse-fast"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 306,
+                                                lineNumber: 309,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute inset-0 bg-green-500/20 blur-2xl animate-matrix-pulse"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 309,
+                                                lineNumber: 312,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "absolute inset-0 bg-emerald-300/15 blur-xl animate-matrix-pulse-delayed"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 310,
+                                                lineNumber: 313,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -660,38 +663,24 @@ function Home() {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 314,
+                                                    lineNumber: 317,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 313,
+                                                lineNumber: 316,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 302,
+                                        lineNumber: 305,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "w-72 h-72 border-2 border-secondary/50 animate-ping-slow"
-                                        }, void 0, false, {
-                                            fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 334,
-                                            columnNumber: 19
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 333,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "w-96 h-96 border-2 border-accent/40 animate-ping-slower"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
                                             lineNumber: 337,
@@ -701,16 +690,30 @@ function Home() {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
                                         lineNumber: 336,
                                         columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "w-96 h-96 border-2 border-accent/40 animate-ping-slower"
+                                        }, void 0, false, {
+                                            fileName: "[project]/Documents/projects/rates/app/page.tsx",
+                                            lineNumber: 340,
+                                            columnNumber: 19
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/rates/app/page.tsx",
+                                        lineNumber: 339,
+                                        columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 237,
+                                lineNumber: 240,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                            lineNumber: 236,
+                            lineNumber: 239,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
@@ -725,20 +728,20 @@ function Home() {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "w-full md:w-1/2 h-2/3 md:h-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 p-3 md:p-6 flex flex-col relative overflow-hidden",
+                className: "w-full md:w-1/2 h-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 p-3 md:p-6 flex flex-col relative overflow-hidden",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute top-0 right-0 w-96 h-96 bg-secondary/5 blur-3xl -z-0"
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 348,
+                        lineNumber: 351,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute bottom-0 left-0 w-96 h-96 bg-primary/5 blur-3xl -z-0"
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 349,
+                        lineNumber: 352,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -748,41 +751,41 @@ function Home() {
                                 className: "absolute top-10 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent animate-data-flow"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 353,
+                                lineNumber: 356,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute top-32 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary to-transparent animate-data-flow-delayed-1"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 354,
+                                lineNumber: 357,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute top-56 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent to-transparent animate-data-flow-delayed-2"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 355,
+                                lineNumber: 358,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute bottom-40 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent animate-data-flow-delayed-3"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 356,
+                                lineNumber: 359,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute bottom-20 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary to-transparent animate-data-flow"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 357,
+                                lineNumber: 360,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 352,
+                        lineNumber: 355,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -793,7 +796,7 @@ function Home() {
                                 children: "$"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 362,
+                                lineNumber: 365,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -801,7 +804,7 @@ function Home() {
                                 children: "€"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 363,
+                                lineNumber: 366,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -809,7 +812,7 @@ function Home() {
                                 children: "£"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 364,
+                                lineNumber: 367,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -817,7 +820,7 @@ function Home() {
                                 children: "¥"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 365,
+                                lineNumber: 368,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -825,7 +828,7 @@ function Home() {
                                 children: "₹"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 366,
+                                lineNumber: 369,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -833,13 +836,13 @@ function Home() {
                                 children: "¥"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 367,
+                                lineNumber: 370,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 361,
+                        lineNumber: 364,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -852,27 +855,27 @@ function Home() {
                                         children: "1.234"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 373,
+                                        lineNumber: 376,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: "5.678"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 374,
+                                        lineNumber: 377,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: "9.012"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 375,
+                                        lineNumber: 378,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 372,
+                                lineNumber: 375,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -882,27 +885,27 @@ function Home() {
                                         children: "0.987"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 378,
+                                        lineNumber: 381,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: "6.543"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 379,
+                                        lineNumber: 382,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: "2.109"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 380,
+                                        lineNumber: 383,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 377,
+                                lineNumber: 380,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -912,33 +915,33 @@ function Home() {
                                         children: "8.765"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 383,
+                                        lineNumber: 386,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: "4.321"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 384,
+                                        lineNumber: 387,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: "0.543"
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 385,
+                                        lineNumber: 388,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 382,
+                                lineNumber: 385,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 371,
+                        lineNumber: 374,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -954,7 +957,7 @@ function Home() {
                                 className: "animate-draw-line"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 391,
+                                lineNumber: 394,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
@@ -971,7 +974,7 @@ function Home() {
                                             stopOpacity: "0.3"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 400,
+                                            lineNumber: 403,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -980,7 +983,7 @@ function Home() {
                                             stopOpacity: "0.8"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 401,
+                                            lineNumber: 404,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -989,24 +992,24 @@ function Home() {
                                             stopOpacity: "0.3"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 402,
+                                            lineNumber: 405,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                    lineNumber: 399,
+                                    lineNumber: 402,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 398,
+                                lineNumber: 401,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 390,
+                        lineNumber: 393,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1016,34 +1019,34 @@ function Home() {
                                 className: "absolute top-1/4 left-1/4 w-2 h-2 bg-green-500 animate-pulse-data"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 409,
+                                lineNumber: 412,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute top-1/3 right-1/3 w-2 h-2 bg-blue-500 animate-pulse-data-delayed"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 410,
+                                lineNumber: 413,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute bottom-1/3 left-1/3 w-2 h-2 bg-orange-500 animate-pulse-data"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 411,
+                                lineNumber: 414,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute bottom-1/4 right-1/4 w-2 h-2 bg-green-500 animate-pulse-data-delayed"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 412,
+                                lineNumber: 415,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 408,
+                        lineNumber: 411,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1058,15 +1061,19 @@ function Home() {
                                         alt: "Talk&Pay",
                                         width: 100,
                                         height: 40,
-                                        className: "object-contain md:w-[120px] md:h-[48px]"
+                                        className: "object-contain md:w-[120px] md:h-[48px]",
+                                        style: {
+                                            width: 'auto',
+                                            height: 'auto'
+                                        }
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 419,
+                                        lineNumber: 422,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                    lineNumber: 418,
+                                    lineNumber: 421,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1077,7 +1084,7 @@ function Home() {
                                             children: "Foreign Exchange Rates"
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 428,
+                                            lineNumber: 432,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1098,12 +1105,12 @@ function Home() {
                                                                 d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                lineNumber: 434,
+                                                                lineNumber: 438,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 433,
+                                                            lineNumber: 437,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1116,13 +1123,13 @@ function Home() {
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 436,
+                                                            lineNumber: 440,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 432,
+                                                    lineNumber: 436,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1140,16 +1147,17 @@ function Home() {
                                                                 d: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                lineNumber: 447,
+                                                                lineNumber: 451,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 446,
+                                                            lineNumber: 450,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "font-mono font-semibold text-primary",
+                                                            suppressHydrationWarning: true,
                                                             children: currentTime.toLocaleTimeString('en-US', {
                                                                 hour: '2-digit',
                                                                 minute: '2-digit',
@@ -1157,36 +1165,36 @@ function Home() {
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 449,
+                                                            lineNumber: 453,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 445,
+                                                    lineNumber: 449,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 431,
+                                            lineNumber: 435,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                    lineNumber: 427,
+                                    lineNumber: 431,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                            lineNumber: 417,
+                            lineNumber: 420,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 416,
+                        lineNumber: 419,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1197,7 +1205,7 @@ function Home() {
                                 children: "Currency"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 464,
+                                lineNumber: 468,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1205,7 +1213,7 @@ function Home() {
                                 children: "Buy"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 465,
+                                lineNumber: 469,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1213,7 +1221,7 @@ function Home() {
                                 children: "Mid"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 466,
+                                lineNumber: 470,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1221,17 +1229,17 @@ function Home() {
                                 children: "Sell"
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 467,
+                                lineNumber: 471,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 463,
+                        lineNumber: 467,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 space-y-1 md:space-y-2 custom-scrollbar",
+                        className: "relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 space-y-1 md:space-y-2 custom-scrollbar smooth-scroll",
                         children: currencies.map((currency, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "bg-white/90 backdrop-blur-sm shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-secondary/30 transform hover:scale-[1.02] animate-fade-in",
                                 style: {
@@ -1256,17 +1264,17 @@ function Home() {
                                                             priority: true
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 484,
+                                                            lineNumber: 488,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                        lineNumber: 483,
+                                                        lineNumber: 487,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 481,
+                                                    lineNumber: 485,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1277,7 +1285,7 @@ function Home() {
                                                             children: currency.code
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 496,
+                                                            lineNumber: 500,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1285,19 +1293,19 @@ function Home() {
                                                             children: currency.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                            lineNumber: 499,
+                                                            lineNumber: 503,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 495,
+                                                    lineNumber: 499,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 480,
+                                            lineNumber: 484,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1309,17 +1317,17 @@ function Home() {
                                                     children: currency.buyRate.toFixed(3)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 508,
+                                                    lineNumber: 512,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 507,
+                                                lineNumber: 511,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 506,
+                                            lineNumber: 510,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1331,17 +1339,17 @@ function Home() {
                                                     children: currency.midRate.toFixed(3)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 517,
+                                                    lineNumber: 521,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 516,
+                                                lineNumber: 520,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 515,
+                                            lineNumber: 519,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1353,33 +1361,33 @@ function Home() {
                                                     children: currency.sellRate.toFixed(3)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 526,
+                                                    lineNumber: 530,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 525,
+                                                lineNumber: 529,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 524,
+                                            lineNumber: 528,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                    lineNumber: 478,
+                                    lineNumber: 482,
                                     columnNumber: 15
                                 }, this)
                             }, currency.id, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 473,
+                                lineNumber: 477,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 471,
+                        lineNumber: 475,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1391,12 +1399,12 @@ function Home() {
                                     className: "absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer"
                                 }, void 0, false, {
                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                    lineNumber: 540,
+                                    lineNumber: 544,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 539,
+                                lineNumber: 543,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1409,7 +1417,7 @@ function Home() {
                                                 className: "w-1.5 h-1.5 md:w-2 md:h-2 bg-red-500 animate-pulse"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 546,
+                                                lineNumber: 550,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1417,13 +1425,13 @@ function Home() {
                                                 children: "Live"
                                             }, void 0, false, {
                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                lineNumber: 547,
+                                                lineNumber: 551,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 545,
+                                        lineNumber: 549,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1442,13 +1450,13 @@ function Home() {
                                                                         children: message.message
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                        lineNumber: 558,
+                                                                        lineNumber: 562,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, "msg1-".concat(message.id), true, {
                                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                lineNumber: 556,
+                                                                lineNumber: 560,
                                                                 columnNumber: 21
                                                             }, this)),
                                                         tickerMessages.map((_, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1456,13 +1464,13 @@ function Home() {
                                                                 children: "•"
                                                             }, "sep1-".concat(index), false, {
                                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                lineNumber: 562,
+                                                                lineNumber: 566,
                                                                 columnNumber: 21
                                                             }, this))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 554,
+                                                    lineNumber: 558,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1476,13 +1484,13 @@ function Home() {
                                                                         children: message.message
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                        lineNumber: 570,
+                                                                        lineNumber: 574,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, "msg2-".concat(message.id), true, {
                                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                lineNumber: 568,
+                                                                lineNumber: 572,
                                                                 columnNumber: 21
                                                             }, this)),
                                                         tickerMessages.map((_, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1490,42 +1498,42 @@ function Home() {
                                                                 children: "•"
                                                             }, "sep2-".concat(index), false, {
                                                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                                lineNumber: 574,
+                                                                lineNumber: 578,
                                                                 columnNumber: 21
                                                             }, this))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                                    lineNumber: 566,
+                                                    lineNumber: 570,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                            lineNumber: 552,
+                                            lineNumber: 556,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                        lineNumber: 551,
+                                        lineNumber: 555,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                                lineNumber: 543,
+                                lineNumber: 547,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                        lineNumber: 537,
+                        lineNumber: 541,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Documents/projects/rates/app/page.tsx",
-                lineNumber: 346,
+                lineNumber: 349,
                 columnNumber: 7
             }, this)
         ]

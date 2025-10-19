@@ -173,8 +173,8 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen overflow-hidden bg-white flex flex-col md:flex-row">
-      {/* Left Side - Media Display */}
-      <div className="w-full md:w-1/2 h-1/3 md:h-full relative overflow-hidden">
+      {/* Left Side - Media Display - Hidden on mobile */}
+      <div className="hidden md:block md:w-1/2 h-full relative overflow-hidden">
         {/* Artistic Animated Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-black">
           {/* Animated geometric patterns */}
@@ -210,7 +210,7 @@ export default function Home() {
                   width: '100%',
                   playerVars: {
                     autoplay: 1,
-                    mute: 0, // Sound enabled
+                    mute: 1, // Muted to ensure autoplay works (browsers block autoplay with sound)
                     loop: 1,
                     playlist: getYouTubeVideoId(media.url), // Required for looping
                     controls: 0,
@@ -221,6 +221,9 @@ export default function Home() {
                 }}
                 onEnd={(event) => {
                   event.target.playVideo(); // Restart video when it ends
+                }}
+                onReady={(event) => {
+                  event.target.playVideo(); // Force play on ready
                 }}
                 className="w-full h-full"
               />
@@ -343,7 +346,7 @@ export default function Home() {
       </div>
 
       {/* Right Side - Exchange Rates */}
-      <div className="w-full md:w-1/2 h-2/3 md:h-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 p-3 md:p-6 flex flex-col relative overflow-hidden">
+      <div className="w-full md:w-1/2 h-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 p-3 md:p-6 flex flex-col relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 blur-3xl -z-0"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 blur-3xl -z-0"></div>
@@ -422,6 +425,7 @@ export default function Home() {
                 width={100}
                 height={40}
                 className="object-contain md:w-[120px] md:h-[48px]"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </div>
             <div className="text-center md:text-right">
@@ -446,7 +450,7 @@ export default function Home() {
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="font-mono font-semibold text-primary">
+                  <span className="font-mono font-semibold text-primary" suppressHydrationWarning>
                     {currentTime.toLocaleTimeString('en-US', {
                       hour: '2-digit',
                       minute: '2-digit',
@@ -468,7 +472,7 @@ export default function Home() {
         </div>
 
         {/* Rates Cards */}
-        <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 space-y-1 md:space-y-2 custom-scrollbar">
+        <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 space-y-1 md:space-y-2 custom-scrollbar smooth-scroll">
           {currencies.map((currency, index) => (
             <div
               key={currency.id}

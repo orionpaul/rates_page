@@ -283,16 +283,16 @@ export default function UsersManagementPage() {
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800">Manage Users</h2>
-        <div className="flex gap-2">
+    <div className="p-2 md:p-0">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3">
+        <h2 className="text-xl md:text-3xl font-bold text-gray-800">Manage Users</h2>
+        <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
           <button
             onClick={() => {
               setShowExistingUserForm(!showExistingUserForm);
               setShowAddForm(false);
             }}
-            className="bg-secondary text-white px-4 py-2 hover:bg-secondary/90 transition"
+            className="bg-secondary text-white px-3 py-2 md:px-4 md:py-2 hover:bg-secondary/90 transition text-sm md:text-base whitespace-nowrap"
           >
             {showExistingUserForm ? 'Cancel' : 'Update Existing User'}
           </button>
@@ -301,7 +301,7 @@ export default function UsersManagementPage() {
               setShowAddForm(!showAddForm);
               setShowExistingUserForm(false);
             }}
-            className="bg-primary text-white px-4 py-2 hover:bg-primary-dark transition"
+            className="bg-primary text-white px-3 py-2 md:px-4 md:py-2 hover:bg-primary-dark transition text-sm md:text-base whitespace-nowrap"
           >
             {showAddForm ? 'Cancel' : 'Create New User'}
           </button>
@@ -310,9 +310,9 @@ export default function UsersManagementPage() {
 
       {/* Update Existing User Form */}
       {showExistingUserForm && (
-        <div className="bg-blue-50 border-2 border-secondary shadow p-6 mb-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Update Existing Firebase User</h3>
-          <p className="text-sm text-gray-600 mb-4">
+        <div className="bg-blue-50 border-2 border-secondary shadow p-3 md:p-6 mb-4 md:mb-6">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">Update Existing Firebase User</h3>
+          <p className="text-xs md:text-sm text-gray-600 mb-4">
             ✅ Use this for users who already have a Firebase Auth account and have logged in at least once.<br/>
             💡 Example: orionpaul@gmail.com (your account)
           </p>
@@ -435,20 +435,20 @@ export default function UsersManagementPage() {
       )}
 
       {/* Users Table */}
-      <div className="bg-white shadow overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white shadow overflow-x-auto">
+        <table className="w-full min-w-[600px]">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Email
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Role
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Created At
+              <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Created
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+              <th className="px-3 md:px-6 py-2 md:py-3 text-right text-xs font-medium text-gray-500 uppercase">
                 Actions
               </th>
             </tr>
@@ -456,13 +456,13 @@ export default function UsersManagementPage() {
           <tbody className="divide-y divide-gray-200">
             {users.map((currentUser) => (
               <tr key={currentUser.uid}>
-                <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-gray-900">{currentUser.email}</div>
+                <td className="px-3 md:px-6 py-2 md:py-4">
+                  <div className="text-xs md:text-sm font-medium text-gray-900">{currentUser.email}</div>
                   {user?.email === currentUser.email && (
                     <span className="text-xs text-secondary font-semibold">(You)</span>
                   )}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-3 md:px-6 py-2 md:py-4">
                   <select
                     value={currentUser.role}
                     onChange={(e) => handleUpdateRole(currentUser.uid, e.target.value as 'admin' | 'editor')}
@@ -473,12 +473,12 @@ export default function UsersManagementPage() {
                     <option value="admin">Admin</option>
                   </select>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500">
+                <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-500">
                   {currentUser.createdAt
                     ? new Date(currentUser.createdAt).toLocaleDateString()
                     : 'N/A'}
                 </td>
-                <td className="px-6 py-4 text-right text-sm">
+                <td className="px-3 md:px-6 py-2 md:py-4 text-right text-xs md:text-sm">
                   {user?.email !== currentUser.email && (
                     <button
                       onClick={() => handleDeleteUser(currentUser.uid)}
