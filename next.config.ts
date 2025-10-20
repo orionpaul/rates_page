@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Fix workspace root detection warning
+  experimental: {
+    turbo: {
+      root: process.cwd(),
+    },
+  },
   images: {
     remotePatterns: [
       {

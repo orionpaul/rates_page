@@ -19,8 +19,12 @@ export default function Home() {
   const [media, setMedia] = useState<Media | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [tickerMessages, setTickerMessages] = useState<TickerMessage[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    // Set mounted flag to prevent hydration issues
+    setIsMounted(true);
+
     // Fetch currencies and subscribe to updates
     const fetchCurrencies = async () => {
       const { data, error } = await supabase
@@ -40,6 +44,8 @@ export default function Home() {
           order: row.order,
           updatedAt: new Date(row.updated_at),
         })));
+      } else if (error) {
+        console.error('Error fetching currencies:', error);
       }
     };
 
@@ -92,11 +98,16 @@ export default function Home() {
         schema: 'public',
         table: 'currencies'
       }, (payload) => {
-        console.log('Currency change detected:', payload);
+        console.log('🔥 Currency updated:', payload.eventType);
         fetchCurrencies(); // Instant refresh on any change
       })
-      .subscribe((status) => {
-        console.log('Currencies subscription status:', status);
+      .subscribe((status, err) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Subscribed to currency updates');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.error('❌ Realtime error - check database settings');
+        }
+        if (err) console.error('Subscription error:', err);
       });
 
     // Subscribe to real-time updates for media with instant refresh
@@ -107,11 +118,11 @@ export default function Home() {
         schema: 'public',
         table: 'media'
       }, (payload) => {
-        console.log('Media change detected:', payload);
+        console.log('🔥 Media updated:', payload.eventType);
         fetchMedia(); // Instant refresh on any change
       })
       .subscribe((status) => {
-        console.log('Media subscription status:', status);
+        if (status === 'SUBSCRIBED') console.log('✅ Subscribed to media updates');
       });
 
     // Subscribe to real-time updates for ticker messages with instant refresh
@@ -122,11 +133,11 @@ export default function Home() {
         schema: 'public',
         table: 'ticker_messages'
       }, (payload) => {
-        console.log('Ticker message change detected:', payload);
+        console.log('🔥 Ticker updated:', payload.eventType);
         fetchTickerMessages(); // Instant refresh on any change
       })
       .subscribe((status) => {
-        console.log('Ticker subscription status:', status);
+        if (status === 'SUBSCRIBED') console.log('✅ Subscribed to ticker updates');
       });
 
     // Update time every second
@@ -433,31 +444,35 @@ export default function Home() {
                 Foreign Exchange Rates
               </h1>
               <div className="flex items-center justify-center md:justify-end gap-2 md:gap-3 text-xs text-gray-600">
-                <div className="flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="font-medium">
-                    {currentTime.toLocaleDateString('en-US', {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="font-mono font-semibold text-primary" suppressHydrationWarning>
-                    {currentTime.toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit',
-                    })}
-                  </span>
-                </div>
+                {isMounted && (
+                  <>
+                    <div className="flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="font-medium">
+                        {currentTime.toLocaleDateString('en-US', {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="font-mono font-semibold text-primary">
+                        {currentTime.toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        })}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

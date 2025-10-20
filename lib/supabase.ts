@@ -11,4 +11,14 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: false, // We're using Firebase Auth, not Supabase Auth
   },
+  realtime: {
+    params: {
+      eventsPerSecond: 10, // Rate limit to prevent overwhelming the client
+    },
+  },
+  global: {
+    headers: {
+      'x-application-name': 'rates-app', // Useful for debugging
+    },
+  },
 });

@@ -91,6 +91,16 @@ if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
 const supabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$rates$2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(supabaseUrl, supabaseAnonKey, {
     auth: {
         persistSession: false
+    },
+    realtime: {
+        params: {
+            eventsPerSecond: 10
+        }
+    },
+    global: {
+        headers: {
+            'x-application-name': 'rates-app'
+        }
     }
 });
 }),
