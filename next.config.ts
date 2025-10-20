@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Fix workspace root warning permanently
-  outputFileTracingRoot: __dirname,
-
   images: {
     remotePatterns: [
       {
