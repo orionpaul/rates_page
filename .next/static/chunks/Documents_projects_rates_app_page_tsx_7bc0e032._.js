@@ -329,10 +329,10 @@ function Home() {
                                     width: '100%',
                                     playerVars: {
                                         autoplay: 1,
-                                        mute: 1,
+                                        mute: 0,
                                         loop: 1,
                                         playlist: getYouTubeVideoId(media.url),
-                                        controls: 0,
+                                        controls: 1,
                                         modestbranding: 1,
                                         rel: 0,
                                         enablejsapi: 1

@@ -221,10 +221,10 @@ export default function Home() {
                   width: '100%',
                   playerVars: {
                     autoplay: 1,
-                    mute: 1, // Muted to ensure autoplay works (browsers block autoplay with sound)
+                    mute: 0, // Sound enabled
                     loop: 1,
                     playlist: getYouTubeVideoId(media.url), // Required for looping
-                    controls: 0,
+                    controls: 1, // Show controls so users can adjust volume
                     modestbranding: 1,
                     rel: 0,
                     enablejsapi: 1,
