@@ -869,3 +869,228 @@ body {
   animation: electric-pulse-fast 1.5s ease-in-out infinite;
   animation-delay: 0.7s;
 }
+
+/* ============================================
+   SMART TV RESPONSIVE DESIGN
+   Supports 720p (1280x720) and below
+   ============================================ */
+
+/* TV Detection: Large screens (typically 32"+ viewed from 6-10 feet) */
+@media (min-width: 1024px) and (min-height: 576px) {
+  /* Increase base font size for TV viewing distance */
+  body {
+    font-size: 18px;
+  }
+
+  /* Larger text for better readability from distance */
+  .tv-text-base {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75;
+  }
+
+  .tv-text-lg {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75;
+  }
+
+  .tv-text-xl {
+    font-size: 2rem; /* 32px */
+    line-height: 1.5;
+  }
+
+  /* Larger currency rates for TV displays */
+  .tv-rate-display {
+    font-size: 2.5rem !important; /* 40px */
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* Larger flag icons */
+  .tv-flag {
+    width: 80px !important;
+    height: 60px !important;
+  }
+
+  /* Ticker message larger for TV */
+  .tv-ticker-text {
+    font-size: 1.75rem !important; /* 28px */
+    font-weight: 600;
+  }
+}
+
+/* 720p TV Resolution (1280x720) - Most common budget Smart TVs */
+@media (min-width: 1280px) and (max-width: 1366px) and (min-height: 720px) and (max-height: 768px) {
+  /* Optimize layout for 720p */
+  body {
+    font-size: 16px;
+  }
+
+  /* Adjust grid for better 720p display */
+  .tv-grid-720p {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Ensure rates are clearly visible */
+  .tv-rate-720p {
+    font-size: 2rem !important;
+    padding: 1rem;
+  }
+
+  /* Optimize ticker for 720p width */
+  .tv-ticker-720p {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Below 720p - Lower resolution TVs (1024x576, 854x480) */
+@media (max-width: 1279px) and (min-width: 854px) {
+  body {
+    font-size: 14px;
+  }
+
+  /* Simplify layout for lower resolution */
+  .tv-low-res {
+    padding: 1rem;
+  }
+
+  /* Ensure critical content is visible */
+  .tv-rate-low {
+    font-size: 1.75rem !important;
+    font-weight: 700;
+  }
+
+  /* Reduce decorative elements on low-res TVs */
+  .tv-hide-on-low-res {
+    display: none !important;
+  }
+
+  /* Larger tap targets for TV remotes */
+  button, a {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Ultra-wide TV screens (16:9 aspect ratio optimization) */
+@media (min-aspect-ratio: 16/9) {
+  .tv-wide-layout {
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+}
+
+/* Landscape orientation (all TVs are landscape) */
+@media (orientation: landscape) and (min-width: 1024px) {
+  /* Full screen experience for TVs */
+  .tv-fullscreen {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Side-by-side layout optimization */
+  .tv-split-view {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100vh;
+  }
+}
+
+/* High DPI TV screens (4K on smaller physical size) */
+@media (min-resolution: 192dpi) {
+  /* Sharper rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Ensure images are crisp */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* TV Remote Navigation - Focus styles */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger focus indicators for TV remote navigation */
+  *:focus,
+  button:focus,
+  a:focus {
+    outline: 4px solid #00A8E8;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 8px rgba(0, 168, 232, 0.3);
+  }
+
+  /* Larger clickable areas */
+  button,
+  a {
+    padding: 1rem 2rem;
+    min-height: 60px;
+  }
+}
+
+/* TV-Specific Utility Classes */
+.tv-container {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.tv-card {
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tv-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.tv-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.tv-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #003A70, #00A8E8);
+  border-radius: 6px;
+}
+
+/* Disable hover effects on TV (no mouse) */
+@media (hover: none) {
+  .hover\:shadow-xl:hover,
+  .hover\:scale-105:hover,
+  .hover\:bg-primary-dark:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* TV Performance Optimizations */
+@media (min-width: 1280px) {
+  /* Reduce animations on lower-powered Smart TVs */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Hardware acceleration for smoother animations on TV */
+  .animate-scroll-left,
+  .animate-fade-in,
+  .tv-animated {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}

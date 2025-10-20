@@ -440,14 +440,14 @@ export default function Home() {
               />
             </div>
             <div className="text-center md:text-right">
-              <h1 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-1">
+              <h1 className="text-lg md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-1">
                 Foreign Exchange Rates
               </h1>
-              <div className="flex items-center justify-center md:justify-end gap-2 md:gap-3 text-xs text-gray-600">
+              <div className="flex items-center justify-center md:justify-end gap-2 md:gap-3 lg:gap-4 text-xs lg:text-base text-gray-600">
                 {isMounted && (
                   <>
-                    <div className="flex items-center gap-1">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-1 lg:gap-2">
+                      <svg className="w-3 h-3 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       <span className="font-medium">
@@ -459,8 +459,8 @@ export default function Home() {
                         })}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-1 lg:gap-2">
+                      <svg className="w-3 h-3 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <span className="font-mono font-semibold text-primary">
@@ -479,32 +479,32 @@ export default function Home() {
         </div>
 
         {/* Column Headers */}
-        <div className="relative z-10 grid grid-cols-4 gap-2 md:gap-4 mb-1 md:mb-2 px-2 md:px-4">
-          <div className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider">Currency</div>
-          <div className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Buy</div>
-          <div className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Mid</div>
-          <div className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Sell</div>
+        <div className="relative z-10 grid grid-cols-4 gap-2 md:gap-4 lg:gap-6 mb-1 md:mb-2 px-2 md:px-4 lg:px-6">
+          <div className="text-[10px] md:text-xs lg:text-base font-bold text-gray-500 uppercase tracking-wider">Currency</div>
+          <div className="text-[10px] md:text-xs lg:text-base font-bold text-gray-500 uppercase tracking-wider text-center">Buy</div>
+          <div className="text-[10px] md:text-xs lg:text-base font-bold text-gray-500 uppercase tracking-wider text-center">Mid</div>
+          <div className="text-[10px] md:text-xs lg:text-base font-bold text-gray-500 uppercase tracking-wider text-center">Sell</div>
         </div>
 
         {/* Rates Cards */}
-        <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 space-y-1 md:space-y-2 custom-scrollbar smooth-scroll">
+        <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 lg:pr-3 space-y-1 md:space-y-2 lg:space-y-3 custom-scrollbar tv-scrollbar smooth-scroll">
           {currencies.map((currency, index) => (
             <div
               key={currency.id}
               className="bg-white/90 backdrop-blur-sm shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-secondary/30 transform hover:scale-[1.02] animate-fade-in"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <div className="grid grid-cols-4 gap-2 md:gap-4 p-2 md:p-3 items-center">
+              <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6 p-2 md:p-3 lg:p-4 items-center">
                 {/* Currency Info */}
-                <div className="flex items-center gap-1 md:gap-3">
+                <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
                   <div className="relative flex-shrink-0">
                     {currency.flagUrl && (
-                      <div className="w-10 h-8 md:w-16 md:h-12 overflow-hidden shadow-lg ring-1 ring-gray-200 bg-white">
+                      <div className="w-10 h-8 md:w-16 md:h-12 lg:w-20 lg:h-16 overflow-hidden shadow-lg ring-1 ring-gray-200 bg-white">
                         <Image
                           src={currency.flagUrl}
                           alt={currency.code}
-                          width={64}
-                          height={48}
+                          width={80}
+                          height={64}
                           className="object-cover w-full h-full"
                           priority
                         />
@@ -512,10 +512,10 @@ export default function Home() {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <div className="font-bold text-sm md:text-lg text-gray-900">
+                    <div className="font-bold text-sm md:text-lg lg:text-2xl text-gray-900">
                       {currency.code}
                     </div>
-                    <div className="text-[10px] md:text-xs text-gray-600 font-medium truncate">
+                    <div className="text-[10px] md:text-xs lg:text-base text-gray-600 font-medium truncate">
                       {currency.name}
                     </div>
                   </div>
@@ -523,8 +523,8 @@ export default function Home() {
 
                 {/* Buy Rate */}
                 <div className="text-center">
-                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 bg-gradient-to-br from-green-50 to-green-100 border-l-2 md:border-l-4 border-green-600 shadow-sm">
-                    <div className="font-mono text-xs md:text-xl font-bold text-green-800">
+                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-green-50 to-green-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-green-600 shadow-sm">
+                    <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-green-800">
                       {currency.buyRate.toFixed(3)}
                     </div>
                   </div>
@@ -532,8 +532,8 @@ export default function Home() {
 
                 {/* Mid Rate */}
                 <div className="text-center">
-                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 bg-gradient-to-br from-blue-50 to-blue-100 border-l-2 md:border-l-4 border-blue-600 shadow-sm">
-                    <div className="font-mono text-xs md:text-xl font-bold text-blue-800">
+                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-blue-50 to-blue-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-blue-600 shadow-sm">
+                    <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-blue-800">
                       {currency.midRate.toFixed(3)}
                     </div>
                   </div>
@@ -541,8 +541,8 @@ export default function Home() {
 
                 {/* Sell Rate */}
                 <div className="text-center">
-                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 bg-gradient-to-br from-orange-50 to-orange-100 border-l-2 md:border-l-4 border-orange-600 shadow-sm">
-                    <div className="font-mono text-xs md:text-xl font-bold text-orange-800">
+                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-orange-50 to-orange-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-orange-600 shadow-sm">
+                    <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-orange-800">
                       {currency.sellRate.toFixed(3)}
                     </div>
                   </div>
@@ -570,27 +570,27 @@ export default function Home() {
             <div className="overflow-hidden ml-14 md:ml-24">
               <div className="flex animate-scroll-left whitespace-nowrap">
                 {/* Duplicate text for seamless loop */}
-                <div className="flex items-center gap-4 md:gap-8 pr-4 md:pr-8">
+                <div className="flex items-center gap-4 md:gap-8 lg:gap-10 pr-4 md:pr-8 lg:pr-10">
                   {tickerMessages.map((message) => (
-                    <span key={`msg1-${message.id}`} className="text-white text-sm md:text-lg font-semibold flex items-center gap-2 md:gap-3">
+                    <span key={`msg1-${message.id}`} className="text-white text-sm md:text-lg lg:text-2xl font-semibold flex items-center gap-2 md:gap-3 lg:gap-4">
                       {getIconSvg(message.icon)}
                       <span>{message.message}</span>
                     </span>
                   ))}
                   {tickerMessages.map((_, index) => (
-                    <span key={`sep1-${index}`} className="text-secondary-light text-sm md:text-lg">•</span>
+                    <span key={`sep1-${index}`} className="text-secondary-light text-sm md:text-lg lg:text-2xl">•</span>
                   ))}
                 </div>
                 {/* Duplicate for seamless loop */}
-                <div className="flex items-center gap-4 md:gap-8 pr-4 md:pr-8">
+                <div className="flex items-center gap-4 md:gap-8 lg:gap-10 pr-4 md:pr-8 lg:pr-10">
                   {tickerMessages.map((message) => (
-                    <span key={`msg2-${message.id}`} className="text-white text-sm md:text-lg font-semibold flex items-center gap-2 md:gap-3">
+                    <span key={`msg2-${message.id}`} className="text-white text-sm md:text-lg lg:text-2xl font-semibold flex items-center gap-2 md:gap-3 lg:gap-4">
                       {getIconSvg(message.icon)}
                       <span>{message.message}</span>
                     </span>
                   ))}
                   {tickerMessages.map((_, index) => (
-                    <span key={`sep2-${index}`} className="text-secondary-light text-sm md:text-lg">•</span>
+                    <span key={`sep2-${index}`} className="text-secondary-light text-sm md:text-lg lg:text-2xl">•</span>
                   ))}
                 </div>
               </div>
