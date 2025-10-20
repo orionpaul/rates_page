@@ -220,14 +220,15 @@ export default function Home() {
                   height: '100%',
                   width: '100%',
                   playerVars: {
-                    autoplay: 1,
-                    mute: 0, // Sound enabled
+                    autoplay: 1, // Autoplay enabled
+                    mute: 0, // Sound enabled (note: browsers may block autoplay with sound)
                     loop: 1,
                     playlist: getYouTubeVideoId(media.url), // Required for looping
                     controls: 1, // Show controls so users can adjust volume
                     modestbranding: 1,
                     rel: 0,
                     enablejsapi: 1,
+                    playsinline: 1, // Required for mobile autoplay
                   },
                 }}
                 onEnd={(event) => {

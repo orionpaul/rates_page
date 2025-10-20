@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signOut, getAuth } from 'firebase/auth';
 import { initializeApp, getApps } from 'firebase/app';
-import { auth } from '@/lib/firebase';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { User } from '@/types';
