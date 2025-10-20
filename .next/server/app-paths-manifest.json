@@ -1,3 +1,4 @@
 {
+  "/admin/dashboard/media/page": "app/admin/dashboard/media/page.js",
   "/page": "app/page.js"
 }
