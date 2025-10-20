@@ -235,7 +235,12 @@ export default function Home() {
                   event.target.playVideo(); // Restart video when it ends
                 }}
                 onReady={(event) => {
-                  event.target.playVideo(); // Force play on ready
+                  // Force autoplay on ready
+                  event.target.playVideo();
+                  // Unmute after 1 second (gives browser time to allow autoplay)
+                  setTimeout(() => {
+                    event.target.unMute();
+                  }, 1000);
                 }}
                 className="w-full h-full"
               />
@@ -487,70 +492,140 @@ export default function Home() {
           <div className="text-[10px] md:text-xs lg:text-base font-bold text-gray-500 uppercase tracking-wider text-center">Sell</div>
         </div>
 
-        {/* Rates Cards */}
-        <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden pr-1 md:pr-2 lg:pr-3 space-y-1 md:space-y-2 lg:space-y-3 custom-scrollbar tv-scrollbar smooth-scroll">
-          {currencies.map((currency, index) => (
-            <div
-              key={currency.id}
-              className="bg-white/90 backdrop-blur-sm shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-secondary/30 transform hover:scale-[1.02] animate-fade-in"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6 p-2 md:p-3 lg:p-4 items-center">
-                {/* Currency Info */}
-                <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
-                  <div className="relative flex-shrink-0">
-                    {currency.flagUrl && (
-                      <div className="w-10 h-8 md:w-16 md:h-12 lg:w-20 lg:h-16 overflow-hidden shadow-lg ring-1 ring-gray-200 bg-white">
-                        <Image
-                          src={currency.flagUrl}
-                          alt={currency.code}
-                          width={80}
-                          height={64}
-                          className="object-cover w-full h-full"
-                          priority
-                        />
+        {/* Rates Cards - Auto-scrolling */}
+        <div className="relative z-10 flex-1 overflow-hidden">
+          <div className={`animate-scroll-up ${currencies.length > 10 ? 'animate-scroll-up-slow' : currencies.length < 6 ? 'animate-scroll-up-fast' : ''}`}>
+            {/* First set of currencies */}
+            <div className="space-y-1 md:space-y-2 lg:space-y-3 pr-1 md:pr-2 lg:pr-3">
+              {currencies.map((currency, index) => (
+                <div
+                  key={`first-${currency.id}`}
+                  className="bg-white/90 backdrop-blur-sm shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-secondary/30 transform hover:scale-[1.02] animate-fade-in"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6 p-2 md:p-3 lg:p-4 items-center">
+                    {/* Currency Info */}
+                    <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
+                      <div className="relative flex-shrink-0">
+                        {currency.flagUrl && (
+                          <div className="w-10 h-8 md:w-16 md:h-12 lg:w-20 lg:h-16 overflow-hidden shadow-lg ring-1 ring-gray-200 bg-white">
+                            <Image
+                              src={currency.flagUrl}
+                              alt={currency.code}
+                              width={80}
+                              height={64}
+                              className="object-cover w-full h-full"
+                              priority
+                            />
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="font-bold text-sm md:text-lg lg:text-2xl text-gray-900">
-                      {currency.code}
+                      <div className="min-w-0">
+                        <div className="font-bold text-sm md:text-lg lg:text-2xl text-gray-900">
+                          {currency.code}
+                        </div>
+                        <div className="text-[10px] md:text-xs lg:text-base text-gray-600 font-medium truncate">
+                          {currency.name}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-[10px] md:text-xs lg:text-base text-gray-600 font-medium truncate">
-                      {currency.name}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Buy Rate */}
-                <div className="text-center">
-                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-green-50 to-green-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-green-600 shadow-sm">
-                    <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-green-800">
-                      {currency.buyRate.toFixed(3)}
+                    {/* Buy Rate */}
+                    <div className="text-center">
+                      <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-green-50 to-green-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-green-600 shadow-sm">
+                        <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-green-800">
+                          {currency.buyRate.toFixed(3)}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* Mid Rate */}
-                <div className="text-center">
-                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-blue-50 to-blue-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-blue-600 shadow-sm">
-                    <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-blue-800">
-                      {currency.midRate.toFixed(3)}
+                    {/* Mid Rate */}
+                    <div className="text-center">
+                      <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-blue-50 to-blue-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-blue-600 shadow-sm">
+                        <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-blue-800">
+                          {currency.midRate.toFixed(3)}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* Sell Rate */}
-                <div className="text-center">
-                  <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-orange-50 to-orange-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-orange-600 shadow-sm">
-                    <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-orange-800">
-                      {currency.sellRate.toFixed(3)}
+                    {/* Sell Rate */}
+                    <div className="text-center">
+                      <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-orange-50 to-orange-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-orange-600 shadow-sm">
+                        <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-orange-800">
+                          {currency.sellRate.toFixed(3)}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+
+            {/* Duplicate set for seamless loop */}
+            <div className="space-y-1 md:space-y-2 lg:space-y-3 pr-1 md:pr-2 lg:pr-3 mt-1 md:mt-2 lg:mt-3">
+              {currencies.map((currency) => (
+                <div
+                  key={`second-${currency.id}`}
+                  className="bg-white/90 backdrop-blur-sm shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-secondary/30 transform hover:scale-[1.02]"
+                >
+                  <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6 p-2 md:p-3 lg:p-4 items-center">
+                    {/* Currency Info */}
+                    <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
+                      <div className="relative flex-shrink-0">
+                        {currency.flagUrl && (
+                          <div className="w-10 h-8 md:w-16 md:h-12 lg:w-20 lg:h-16 overflow-hidden shadow-lg ring-1 ring-gray-200 bg-white">
+                            <Image
+                              src={currency.flagUrl}
+                              alt={currency.code}
+                              width={80}
+                              height={64}
+                              className="object-cover w-full h-full"
+                              priority
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-bold text-sm md:text-lg lg:text-2xl text-gray-900">
+                          {currency.code}
+                        </div>
+                        <div className="text-[10px] md:text-xs lg:text-base text-gray-600 font-medium truncate">
+                          {currency.name}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Buy Rate */}
+                    <div className="text-center">
+                      <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-green-50 to-green-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-green-600 shadow-sm">
+                        <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-green-800">
+                          {currency.buyRate.toFixed(3)}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mid Rate */}
+                    <div className="text-center">
+                      <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-blue-50 to-blue-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-blue-600 shadow-sm">
+                        <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-blue-800">
+                          {currency.midRate.toFixed(3)}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Sell Rate */}
+                    <div className="text-center">
+                      <div className="inline-block px-2 py-1 md:px-5 md:py-2 lg:px-6 lg:py-3 bg-gradient-to-br from-orange-50 to-orange-100 border-l-2 md:border-l-4 lg:border-l-[6px] border-orange-600 shadow-sm">
+                        <div className="font-mono text-xs md:text-xl lg:text-3xl font-bold text-orange-800">
+                          {currency.sellRate.toFixed(3)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* News Ticker / Announcement Banner */}

@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Fix workspace root warning for Vercel deployments
-  outputFileTracingRoot: process.cwd(),
+  // Fix workspace root warning permanently
+  outputFileTracingRoot: __dirname,
+
   images: {
     remotePatterns: [
       {

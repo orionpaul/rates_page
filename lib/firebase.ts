@@ -1,5 +1,5 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, Auth } from 'firebase/auth';
 
 // Firebase configuration (Authentication Only)
 const firebaseConfig = {
@@ -13,13 +13,16 @@ const firebaseConfig = {
 
 // Initialize Firebase (singleton pattern)
 let app: FirebaseApp;
+let auth: Auth;
 
-if (getApps().length === 0) {
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApps()[0];
+// Only initialize if we have the required config
+if (typeof window !== 'undefined' && firebaseConfig.apiKey) {
+  if (getApps().length === 0) {
+    app = initializeApp(firebaseConfig);
+  } else {
+    app = getApps()[0];
+  }
+  auth = getAuth(app);
 }
-
-const auth = getAuth(app);
 
 export { app, auth };

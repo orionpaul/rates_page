@@ -92,6 +92,42 @@ body {
   animation-play-state: paused;
 }
 
+/* Auto-Scrolling Rates Animation */
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-scroll-up {
+  animation: scroll-up 60s linear infinite;
+}
+
+.animate-scroll-up:hover {
+  animation-play-state: paused;
+}
+
+/* Faster scroll for fewer items */
+.animate-scroll-up-fast {
+  animation: scroll-up 45s linear infinite;
+}
+
+.animate-scroll-up-fast:hover {
+  animation-play-state: paused;
+}
+
+/* Slower scroll for many items */
+.animate-scroll-up-slow {
+  animation: scroll-up 90s linear infinite;
+}
+
+.animate-scroll-up-slow:hover {
+  animation-play-state: paused;
+}
+
 /* Shimmer Effect */
 @keyframes shimmer {
   0% {
