@@ -12,7 +12,7 @@ export interface Currency {
 
 export interface Media {
   id: string;
-  type: 'youtube' | 'image';
+  type: 'youtube' | 'image' | 'video';
   url: string;
   isActive: boolean;
   createdAt: Date;

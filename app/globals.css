@@ -1,5 +1,56 @@
 @import "tailwindcss";
 
+/* ============================================
+   BROWSER & TV COMPATIBILITY FIXES
+   Ensures compatibility with all devices
+   ============================================ */
+
+/* Universal box-sizing for older browsers */
+*, *::before, *::after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Prevent text size adjustment on orientation change for mobile/TV */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Ensure smooth rendering across all browsers */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fallback for CSS Grid on older browsers */
+@supports not (display: grid) {
+  .grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .grid > * {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+  }
+}
+
+/* Ensure images work on all devices */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  -ms-interpolation-mode: bicubic; /* IE fix */
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -40,19 +91,35 @@ body {
   overscroll-behavior-y: contain;
 }
 
-/* Custom Animations */
-@keyframes fade-in {
+/* Custom Animations with vendor prefixes for maximum compatibility */
+@-webkit-keyframes fade-in {
   from {
     opacity: 0;
+    -webkit-transform: translateY(10px);
     transform: translateY(10px);
   }
   to {
     opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
     transform: translateY(0);
   }
 }
 
 .animate-fade-in {
+  -webkit-animation: fade-in 0.5s ease-out forwards;
   animation: fade-in 0.5s ease-out forwards;
   opacity: 0;
 }
@@ -74,39 +141,69 @@ body {
   background: linear-gradient(180deg, #00A8E8, #003A70);
 }
 
-/* Scrolling News Ticker Animation */
-@keyframes scroll-left {
+/* Scrolling News Ticker Animation with vendor prefixes */
+@-webkit-keyframes scroll-left {
   0% {
+    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
   100% {
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
   }
 }
 
 .animate-scroll-left {
+  -webkit-animation: scroll-left 30s linear infinite;
   animation: scroll-left 30s linear infinite;
 }
 
 .animate-scroll-left:hover {
+  -webkit-animation-play-state: paused;
   animation-play-state: paused;
 }
 
-/* Auto-Scrolling Rates Animation */
-@keyframes scroll-up {
+/* Auto-Scrolling Rates Animation with vendor prefixes */
+@-webkit-keyframes scroll-up {
   0% {
+    -webkit-transform: translateY(0);
     transform: translateY(0);
   }
   100% {
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes scroll-up {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
 }
 
 .animate-scroll-up {
+  -webkit-animation: scroll-up 60s linear infinite;
   animation: scroll-up 60s linear infinite;
 }
 
 .animate-scroll-up:hover {
+  -webkit-animation-play-state: paused;
   animation-play-state: paused;
 }
 
@@ -1042,10 +1139,14 @@ body {
     text-rendering: optimizeLegibility;
   }
 
-  /* Ensure images are crisp */
+  /* Ensure images are crisp on high-DPI displays */
   img {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor; /* IE/Edge */
+    image-rendering: -webkit-optimize-contrast; /* Webkit */
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -o-crisp-edges; /* Opera */
+    image-rendering: crisp-edges; /* Standard */
+    image-rendering: pixelated; /* Fallback */
   }
 }
 
@@ -1127,6 +1228,350 @@ body {
   .tv-animated {
     will-change: transform;
     transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+  }
+}
+
+/* ============================================
+   EXTENDED DEVICE COMPATIBILITY
+   From smallest phones to largest 8K TVs
+   ============================================ */
+
+/* Extra Small Devices (Budget/Old Phones: 240-359px) */
+@media (max-width: 359px) {
+  body {
+    font-size: 12px;
+  }
+
+  /* Reduce all padding/margins on tiny screens */
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Make text readable on very small screens */
+  h1, .text-4xl, .text-3xl {
+    font-size: 1.25rem !important;
+  }
+
+  h2, .text-2xl {
+    font-size: 1.125rem !important;
+  }
+
+  /* Ensure buttons are tappable */
+  button, a {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Simplify grid layouts */
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Small Phones (360-479px) */
+@media (min-width: 360px) and (max-width: 479px) {
+  body {
+    font-size: 13px;
+  }
+
+  /* Optimize for small screens */
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large Phones (480-639px) */
+@media (min-width: 480px) and (max-width: 639px) {
+  body {
+    font-size: 14px;
+  }
+
+  /* Better use of space on larger phones */
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Small Tablets (640-767px) */
+@media (min-width: 640px) and (max-width: 767px) {
+  body {
+    font-size: 15px;
+  }
+
+  /* Optimize for small tablets */
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large Tablets (768-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  body {
+    font-size: 16px;
+  }
+
+  /* Full grid for tablets */
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Small Laptops/Old Monitors (1024-1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  body {
+    font-size: 16px;
+  }
+
+  /* Ensure good layout on small laptops */
+  .container {
+    max-width: 100%;
+  }
+}
+
+/* HD Ready TVs (1366x768) */
+@media (min-width: 1366px) and (max-width: 1599px) and (min-height: 720px) {
+  body {
+    font-size: 17px;
+  }
+
+  /* Optimize for HD Ready displays */
+  .tv-text-base {
+    font-size: 1.125rem;
+  }
+}
+
+/* Full HD Displays (1600-1919px) */
+@media (min-width: 1600px) and (max-width: 1919px) {
+  body {
+    font-size: 18px;
+  }
+
+  /* Better spacing for Full HD */
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* Full HD TVs (1920x1080) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  body {
+    font-size: 18px;
+  }
+
+  /* Optimize for 1080p displays */
+  .tv-rate-display {
+    font-size: 3rem !important;
+  }
+
+  .tv-text-xl {
+    font-size: 2.25rem;
+  }
+}
+
+/* 2K/QHD Displays (2560-3839px) */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  body {
+    font-size: 20px;
+  }
+
+  /* Scale up for 2K displays */
+  .tv-rate-display {
+    font-size: 3.5rem !important;
+  }
+
+  .tv-heading {
+    font-size: 4rem;
+  }
+
+  .container {
+    max-width: 2560px;
+  }
+}
+
+/* 4K Ultra HD TVs (3840px and above) */
+@media (min-width: 3840px) {
+  body {
+    font-size: 24px;
+  }
+
+  /* Scale everything for 4K */
+  .tv-rate-display {
+    font-size: 5rem !important;
+  }
+
+  .tv-text-xl {
+    font-size: 3.5rem;
+  }
+
+  .tv-heading {
+    font-size: 5rem;
+  }
+
+  .tv-flag {
+    width: 120px !important;
+    height: 90px !important;
+  }
+
+  .tv-ticker-text {
+    font-size: 2.5rem !important;
+  }
+
+  .container {
+    max-width: 3840px;
+  }
+
+  /* Larger tap targets for 4K */
+  button, a {
+    min-height: 80px;
+    padding: 1.5rem 3rem;
+  }
+}
+
+/* 8K Displays (7680px and above) */
+@media (min-width: 7680px) {
+  body {
+    font-size: 32px;
+  }
+
+  /* Massive scaling for 8K */
+  .tv-rate-display {
+    font-size: 8rem !important;
+  }
+
+  .tv-heading {
+    font-size: 7rem;
+  }
+
+  .tv-flag {
+    width: 200px !important;
+    height: 150px !important;
+  }
+}
+
+/* Portrait Mode Optimization (phones/tablets held vertically) */
+@media (orientation: portrait) {
+  /* Stack content vertically in portrait */
+  .md\:flex-row {
+    flex-direction: column !important;
+  }
+
+  /* Make media full-width in portrait */
+  .md\:w-1\/2 {
+    width: 100% !important;
+  }
+
+  /* Adjust grid for portrait orientation */
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Landscape Mode on Mobile (phones held horizontally) */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Optimize for landscape mobile (like iPhone in landscape) */
+  body {
+    font-size: 14px;
+  }
+
+  /* Use horizontal space better */
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Reduce vertical padding in landscape */
+  .py-4, .py-8 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* Fallback for browsers that don't support modern CSS */
+@supports not (display: flex) {
+  .flex {
+    display: block;
+  }
+
+  .flex > * {
+    display: block;
+    width: 100%;
+  }
+}
+
+/* ============================================
+   VIDEO COMPATIBILITY FOR ALL DEVICES
+   Ensures videos work on all browsers & TVs
+   ============================================ */
+
+/* YouTube iframe and video element styling */
+iframe,
+video {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Ensure videos fill container properly */
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* Fallback for older browsers */
+video {
+  background: #000;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* Prevent video controls from being cut off on mobile */
+video::-webkit-media-controls-panel {
+  max-width: 100%;
+}
+
+/* Smart TV video optimization */
+@media (min-width: 1024px) {
+  video {
+    /* Hardware acceleration for smooth playback */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Print Styles (if needed) */
+@media print {
+  /* Hide non-essential elements */
+  .animate-scroll-left,
+  .animate-scroll-up,
+  video,
+  iframe {
+    display: none !important;
+  }
+
+  /* Ensure readable print output */
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
   }
 }

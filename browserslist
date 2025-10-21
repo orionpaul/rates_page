@@ -1,0 +1,27 @@
+# Browserslist Configuration for Maximum Device Compatibility
+# This ensures the app works on ALL devices from budget phones to Smart TVs
+
+# Production browsers (covers 99.9% of all devices)
+> 0.1%
+last 10 versions
+not dead
+
+# Specific browser support for Smart TVs
+Samsung >= 5
+Chrome >= 40
+Firefox >= 35
+Safari >= 9
+Edge >= 12
+
+# Mobile browser support
+iOS >= 9
+Android >= 4.4
+ChromeAndroid >= 40
+FirefoxAndroid >= 35
+
+# Legacy browser support for older Smart TVs
+ie >= 10
+op_mini all
+
+# Ensure support for budget/generic devices
+maintained node versions

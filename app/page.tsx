@@ -221,28 +221,46 @@ export default function Home() {
                   width: '100%',
                   playerVars: {
                     autoplay: 1, // Autoplay enabled
-                    mute: 0, // Sound enabled (note: browsers may block autoplay with sound)
-                    loop: 1,
+                    mute: 1, // Start muted for browser compatibility (users can unmute)
+                    loop: 1, // Continuous loop enabled
                     playlist: getYouTubeVideoId(media.url), // Required for looping
-                    controls: 1, // Show controls so users can adjust volume
-                    modestbranding: 1,
-                    rel: 0,
-                    enablejsapi: 1,
-                    playsinline: 1, // Required for mobile autoplay
+                    controls: 1, // Show controls so users can unmute/adjust
+                    modestbranding: 1, // Minimal YouTube branding
+                    rel: 0, // Don't show related videos
+                    enablejsapi: 1, // Enable JavaScript API
+                    playsinline: 1, // Required for mobile/TV autoplay
+                    fs: 1, // Allow fullscreen
+                    iv_load_policy: 3, // Hide video annotations
+                    disablekb: 0, // Enable keyboard controls for accessibility
+                    origin: typeof window !== 'undefined' ? window.location.origin : '',
                   },
                 }}
                 onEnd={(event) => {
-                  event.target.playVideo(); // Restart video when it ends
+                  // Restart video when it ends (backup for loop)
+                  try {
+                    event.target.playVideo();
+                  } catch (e) {
+                    console.log('Video loop error:', e);
+                  }
                 }}
                 onReady={(event) => {
-                  // Force autoplay on ready
-                  event.target.playVideo();
-                  // Unmute after 1 second (gives browser time to allow autoplay)
-                  setTimeout(() => {
-                    event.target.unMute();
-                  }, 1000);
+                  // Force autoplay on ready for all devices
+                  try {
+                    event.target.playVideo();
+                    // Try to set quality for better compatibility
+                    if (event.target.setPlaybackQuality) {
+                      event.target.setPlaybackQuality('hd720');
+                    }
+                  } catch (e) {
+                    console.log('Video autoplay error:', e);
+                  }
+                }}
+                onError={(event) => {
+                  // Handle errors gracefully
+                  console.log('YouTube player error:', event.data);
                 }}
                 className="w-full h-full"
+                loading="eager"
               />
             </div>
           ) : media?.type === 'image' ? (
@@ -252,6 +270,27 @@ export default function Home() {
               fill
               className="object-cover"
             />
+          ) : media?.type === 'video' ? (
+            <div className="video-container w-full h-full">
+              <video
+                src={media.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+                preload="auto"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.log('Video playback error:', e);
+                }}
+              >
+                {/* Fallback for very old browsers */}
+                <p className="text-white text-center p-4">
+                  Your browser does not support the video tag. Please upgrade your browser.
+                </p>
+              </video>
+            </div>
           ) : (
             <div className="flex items-center justify-center h-full">
               <div className="relative">

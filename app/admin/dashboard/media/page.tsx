@@ -77,7 +77,7 @@ export default function MediaManagementPage() {
       if (data && !error) {
         const mediaData = data.map(row => ({
           id: row.id,
-          type: row.type as 'youtube' | 'image',
+          type: row.type as 'youtube' | 'image' | 'video',
           url: row.url,
           isActive: row.is_active,
           createdAt: new Date(row.created_at),
