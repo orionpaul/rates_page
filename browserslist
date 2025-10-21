@@ -1,27 +1,46 @@
 # Browserslist Configuration for Maximum Device Compatibility
 # This ensures the app works on ALL devices from budget phones to Smart TVs
+# Including Hisense, TCL, and generic Chinese TV brands
 
 # Production browsers (covers 99.9% of all devices)
 > 0.1%
 last 10 versions
 not dead
 
-# Specific browser support for Smart TVs
-Samsung >= 5
-Chrome >= 40
-Firefox >= 35
-Safari >= 9
+# Specific browser support for Smart TVs (very aggressive)
+Samsung >= 4
+Chrome >= 30
+Firefox >= 30
+Safari >= 8
 Edge >= 12
 
-# Mobile browser support
-iOS >= 9
-Android >= 4.4
-ChromeAndroid >= 40
-FirefoxAndroid >= 35
+# Chinese TV browsers (often based on old Chromium)
+Chrome >= 30
+Android >= 4.0
+ChromeAndroid >= 30
 
-# Legacy browser support for older Smart TVs
-ie >= 10
+# Mobile browser support (including old Android)
+iOS >= 8
+Android >= 4.0
+ChromeAndroid >= 30
+FirefoxAndroid >= 30
+
+# Legacy browser support for older Smart TVs and Windows
+ie >= 9
+ie_mob >= 10
 op_mini all
+Opera >= 15
 
-# Ensure support for budget/generic devices
+# Budget/generic device support
+UCAndroid > 0
+QQAndroid > 0
+Baidu > 0
+
+# Ensure support for Node.js (for SSR)
 maintained node versions
+
+# Explicitly target old browsers
+last 20 Chrome versions
+last 20 Firefox versions
+last 10 Safari versions
+last 10 Edge versions

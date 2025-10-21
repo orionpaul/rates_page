@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - Talk&Pay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #003A70 0%, #002850 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 90%;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #00A8E8;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(0, 168, 232, 0.5);
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #00A8E8;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .message {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .submessage {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Optimizations for TVs */
+        @media (min-width: 1024px) {
+            .logo {
+                font-size: 6rem;
+            }
+            .spinner {
+                width: 120px;
+                height: 120px;
+                border-width: 12px;
+            }
+            .message {
+                font-size: 2.5rem;
+            }
+            .submessage {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="logo">Talk&Pay</div>
+        <div class="spinner"></div>
+        <div class="message">Loading Exchange Rates...</div>
+        <div class="submessage">Please wait, optimizing for your device</div>
+    </div>
+
+    <script>
+        // Auto-redirect to main page after 3 seconds
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 3000);
+    </script>
+</body>
+</html>
